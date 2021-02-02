@@ -2887,6 +2887,226 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
         # Done; return the response.
         return response
 
+    def register_subscriber(
+        self,
+        request: service.RegisterSubscriberRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> service.RegisterSubscriberResponse:
+        r"""Registers a service account with subscriber privileges on the
+        Cloud Pub/Sub topic created for this Channel Services account.
+        Once you create a subscriber, you will get the events as per
+        [SubscriberEvent][google.cloud.channel.v1.SubscriberEvent]
+
+        Possible Error Codes:
+
+        -  PERMISSION_DENIED: If the reseller account making the request
+           and the reseller account being provided are different, or if
+           the impersonated user is not a super admin.
+        -  INVALID_ARGUMENT: Missing or invalid required parameters in
+           the request.
+        -  INTERNAL: Any non-user error related to a technical issue in
+           the backend. In this case, contact Cloud Channel support.
+        -  UNKNOWN: Any non-user error related to a technical issue in
+           the backend. In this case, contact Cloud Channel support.
+
+        Return Value: Topic name with service email address registered
+        if successful, otherwise error is returned.
+
+        Args:
+            request (google.cloud.channel_v1.types.RegisterSubscriberRequest):
+                The request object. Request Message for
+                RegisterSubscriber.
+
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.channel_v1.types.RegisterSubscriberResponse:
+                Response Message for
+                RegisterSubscriber.
+
+        """
+        # Create or coerce a protobuf request object.
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a service.RegisterSubscriberRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, service.RegisterSubscriberRequest):
+            request = service.RegisterSubscriberRequest(request)
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.register_subscriber]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("account", request.account),)),
+        )
+
+        # Send the request.
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+
+        # Done; return the response.
+        return response
+
+    def unregister_subscriber(
+        self,
+        request: service.UnregisterSubscriberRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> service.UnregisterSubscriberResponse:
+        r"""Unregisters a service account with subscriber privileges on the
+        Cloud Pub/Sub topic created for this Channel Services account.
+        If there are no more service account left with sunbscriber
+        privileges, the topic will be deleted. You can check this by
+        calling ListSubscribers api.
+
+        Possible Error Codes:
+
+        -  PERMISSION_DENIED: If the reseller account making the request
+           and the reseller account being provided are different, or if
+           the impersonated user is not a super admin.
+        -  INVALID_ARGUMENT: Missing or invalid required parameters in
+           the request.
+        -  NOT_FOUND: If the topic resource doesn't exist.
+        -  INTERNAL: Any non-user error related to a technical issue in
+           the backend. In this case, contact Cloud Channel support.
+        -  UNKNOWN: Any non-user error related to a technical issue in
+           the backend. In this case, contact Cloud Channel support.
+
+        Return Value: Topic name from which service email address has
+        been unregistered if successful, otherwise error is returned. If
+        the service email was already not associated with the topic, the
+        success response will be returned.
+
+        Args:
+            request (google.cloud.channel_v1.types.UnregisterSubscriberRequest):
+                The request object. Request Message for
+                UnregisterSubscriber.
+
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.channel_v1.types.UnregisterSubscriberResponse:
+                Response Message for
+                UnregisterSubscriber.
+
+        """
+        # Create or coerce a protobuf request object.
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a service.UnregisterSubscriberRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, service.UnregisterSubscriberRequest):
+            request = service.UnregisterSubscriberRequest(request)
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.unregister_subscriber]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("account", request.account),)),
+        )
+
+        # Send the request.
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+
+        # Done; return the response.
+        return response
+
+    def list_subscribers(
+        self,
+        request: service.ListSubscribersRequest = None,
+        *,
+        retry: retries.Retry = gapic_v1.method.DEFAULT,
+        timeout: float = None,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> pagers.ListSubscribersPager:
+        r"""Lists service accounts with subscriber privileges on the Cloud
+        Pub/Sub topic created for this Channel Services account.
+
+        Possible Error Codes:
+
+        -  PERMISSION_DENIED: If the reseller account making the request
+           and the reseller account being provided are different, or if
+           the account is not a super admin.
+        -  INVALID_ARGUMENT: Missing or invalid required parameters in
+           the request.
+        -  NOT_FOUND: If the topic resource doesn't exist.
+        -  INTERNAL: Any non-user error related to a technical issue in
+           the backend. In this case, contact Cloud Channel support.
+        -  UNKNOWN: Any non-user error related to a technical issue in
+           the backend. In this case, contact Cloud Channel support.
+
+        Return Value: List of service email addresses if successful,
+        otherwise error is returned.
+
+        Args:
+            request (google.cloud.channel_v1.types.ListSubscribersRequest):
+                The request object. Request Message for ListSubscribers.
+
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.cloud.channel_v1.services.cloud_channel_service.pagers.ListSubscribersPager:
+                Response Message for ListSubscribers.
+                Iterating over this object will yield
+                results and resolve additional pages
+                automatically.
+
+        """
+        # Create or coerce a protobuf request object.
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a service.ListSubscribersRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, service.ListSubscribersRequest):
+            request = service.ListSubscribersRequest(request)
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.list_subscribers]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("account", request.account),)),
+        )
+
+        # Send the request.
+        response = rpc(request, retry=retry, timeout=timeout, metadata=metadata,)
+
+        # This method is paged; wrap the response in a pager, which provides
+        # an `__iter__` convenience method.
+        response = pagers.ListSubscribersPager(
+            method=rpc, request=request, response=response, metadata=metadata,
+        )
+
+        # Done; return the response.
+        return response
+
 
 try:
     DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(

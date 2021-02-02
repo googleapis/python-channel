@@ -6200,6 +6200,538 @@ async def test_list_purchasable_offers_async_pages():
             assert page_.raw_page.next_page_token == token
 
 
+def test_register_subscriber(
+    transport: str = "grpc", request_type=service.RegisterSubscriberRequest
+):
+    client = CloudChannelServiceClient(
+        credentials=credentials.AnonymousCredentials(), transport=transport,
+    )
+
+    # Everything is optional in proto3 as far as the runtime is concerned,
+    # and we are mocking out the actual API, so just send an empty request.
+    request = request_type()
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.register_subscriber), "__call__"
+    ) as call:
+        # Designate an appropriate return value for the call.
+        call.return_value = service.RegisterSubscriberResponse(topic="topic_value",)
+
+        response = client.register_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls) == 1
+        _, args, _ = call.mock_calls[0]
+
+        assert args[0] == service.RegisterSubscriberRequest()
+
+    # Establish that the response is the type that we expect.
+
+    assert isinstance(response, service.RegisterSubscriberResponse)
+
+    assert response.topic == "topic_value"
+
+
+def test_register_subscriber_from_dict():
+    test_register_subscriber(request_type=dict)
+
+
+@pytest.mark.asyncio
+async def test_register_subscriber_async(
+    transport: str = "grpc_asyncio", request_type=service.RegisterSubscriberRequest
+):
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials(), transport=transport,
+    )
+
+    # Everything is optional in proto3 as far as the runtime is concerned,
+    # and we are mocking out the actual API, so just send an empty request.
+    request = request_type()
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.register_subscriber), "__call__"
+    ) as call:
+        # Designate an appropriate return value for the call.
+        call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
+            service.RegisterSubscriberResponse(topic="topic_value",)
+        )
+
+        response = await client.register_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls)
+        _, args, _ = call.mock_calls[0]
+
+        assert args[0] == service.RegisterSubscriberRequest()
+
+    # Establish that the response is the type that we expect.
+    assert isinstance(response, service.RegisterSubscriberResponse)
+
+    assert response.topic == "topic_value"
+
+
+@pytest.mark.asyncio
+async def test_register_subscriber_async_from_dict():
+    await test_register_subscriber_async(request_type=dict)
+
+
+def test_register_subscriber_field_headers():
+    client = CloudChannelServiceClient(credentials=credentials.AnonymousCredentials(),)
+
+    # Any value that is part of the HTTP/1.1 URI should be sent as
+    # a field header. Set these to a non-empty value.
+    request = service.RegisterSubscriberRequest()
+    request.account = "account/value"
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.register_subscriber), "__call__"
+    ) as call:
+        call.return_value = service.RegisterSubscriberResponse()
+
+        client.register_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls) == 1
+        _, args, _ = call.mock_calls[0]
+        assert args[0] == request
+
+    # Establish that the field header was sent.
+    _, _, kw = call.mock_calls[0]
+    assert ("x-goog-request-params", "account=account/value",) in kw["metadata"]
+
+
+@pytest.mark.asyncio
+async def test_register_subscriber_field_headers_async():
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials(),
+    )
+
+    # Any value that is part of the HTTP/1.1 URI should be sent as
+    # a field header. Set these to a non-empty value.
+    request = service.RegisterSubscriberRequest()
+    request.account = "account/value"
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.register_subscriber), "__call__"
+    ) as call:
+        call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
+            service.RegisterSubscriberResponse()
+        )
+
+        await client.register_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls)
+        _, args, _ = call.mock_calls[0]
+        assert args[0] == request
+
+    # Establish that the field header was sent.
+    _, _, kw = call.mock_calls[0]
+    assert ("x-goog-request-params", "account=account/value",) in kw["metadata"]
+
+
+def test_unregister_subscriber(
+    transport: str = "grpc", request_type=service.UnregisterSubscriberRequest
+):
+    client = CloudChannelServiceClient(
+        credentials=credentials.AnonymousCredentials(), transport=transport,
+    )
+
+    # Everything is optional in proto3 as far as the runtime is concerned,
+    # and we are mocking out the actual API, so just send an empty request.
+    request = request_type()
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.unregister_subscriber), "__call__"
+    ) as call:
+        # Designate an appropriate return value for the call.
+        call.return_value = service.UnregisterSubscriberResponse(topic="topic_value",)
+
+        response = client.unregister_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls) == 1
+        _, args, _ = call.mock_calls[0]
+
+        assert args[0] == service.UnregisterSubscriberRequest()
+
+    # Establish that the response is the type that we expect.
+
+    assert isinstance(response, service.UnregisterSubscriberResponse)
+
+    assert response.topic == "topic_value"
+
+
+def test_unregister_subscriber_from_dict():
+    test_unregister_subscriber(request_type=dict)
+
+
+@pytest.mark.asyncio
+async def test_unregister_subscriber_async(
+    transport: str = "grpc_asyncio", request_type=service.UnregisterSubscriberRequest
+):
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials(), transport=transport,
+    )
+
+    # Everything is optional in proto3 as far as the runtime is concerned,
+    # and we are mocking out the actual API, so just send an empty request.
+    request = request_type()
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.unregister_subscriber), "__call__"
+    ) as call:
+        # Designate an appropriate return value for the call.
+        call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
+            service.UnregisterSubscriberResponse(topic="topic_value",)
+        )
+
+        response = await client.unregister_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls)
+        _, args, _ = call.mock_calls[0]
+
+        assert args[0] == service.UnregisterSubscriberRequest()
+
+    # Establish that the response is the type that we expect.
+    assert isinstance(response, service.UnregisterSubscriberResponse)
+
+    assert response.topic == "topic_value"
+
+
+@pytest.mark.asyncio
+async def test_unregister_subscriber_async_from_dict():
+    await test_unregister_subscriber_async(request_type=dict)
+
+
+def test_unregister_subscriber_field_headers():
+    client = CloudChannelServiceClient(credentials=credentials.AnonymousCredentials(),)
+
+    # Any value that is part of the HTTP/1.1 URI should be sent as
+    # a field header. Set these to a non-empty value.
+    request = service.UnregisterSubscriberRequest()
+    request.account = "account/value"
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.unregister_subscriber), "__call__"
+    ) as call:
+        call.return_value = service.UnregisterSubscriberResponse()
+
+        client.unregister_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls) == 1
+        _, args, _ = call.mock_calls[0]
+        assert args[0] == request
+
+    # Establish that the field header was sent.
+    _, _, kw = call.mock_calls[0]
+    assert ("x-goog-request-params", "account=account/value",) in kw["metadata"]
+
+
+@pytest.mark.asyncio
+async def test_unregister_subscriber_field_headers_async():
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials(),
+    )
+
+    # Any value that is part of the HTTP/1.1 URI should be sent as
+    # a field header. Set these to a non-empty value.
+    request = service.UnregisterSubscriberRequest()
+    request.account = "account/value"
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.unregister_subscriber), "__call__"
+    ) as call:
+        call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
+            service.UnregisterSubscriberResponse()
+        )
+
+        await client.unregister_subscriber(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls)
+        _, args, _ = call.mock_calls[0]
+        assert args[0] == request
+
+    # Establish that the field header was sent.
+    _, _, kw = call.mock_calls[0]
+    assert ("x-goog-request-params", "account=account/value",) in kw["metadata"]
+
+
+def test_list_subscribers(
+    transport: str = "grpc", request_type=service.ListSubscribersRequest
+):
+    client = CloudChannelServiceClient(
+        credentials=credentials.AnonymousCredentials(), transport=transport,
+    )
+
+    # Everything is optional in proto3 as far as the runtime is concerned,
+    # and we are mocking out the actual API, so just send an empty request.
+    request = request_type()
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(type(client.transport.list_subscribers), "__call__") as call:
+        # Designate an appropriate return value for the call.
+        call.return_value = service.ListSubscribersResponse(
+            topic="topic_value",
+            service_accounts=["service_accounts_value"],
+            next_page_token="next_page_token_value",
+        )
+
+        response = client.list_subscribers(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls) == 1
+        _, args, _ = call.mock_calls[0]
+
+        assert args[0] == service.ListSubscribersRequest()
+
+    # Establish that the response is the type that we expect.
+
+    assert isinstance(response, pagers.ListSubscribersPager)
+
+    assert response.topic == "topic_value"
+
+    assert response.service_accounts == ["service_accounts_value"]
+
+    assert response.next_page_token == "next_page_token_value"
+
+
+def test_list_subscribers_from_dict():
+    test_list_subscribers(request_type=dict)
+
+
+@pytest.mark.asyncio
+async def test_list_subscribers_async(
+    transport: str = "grpc_asyncio", request_type=service.ListSubscribersRequest
+):
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials(), transport=transport,
+    )
+
+    # Everything is optional in proto3 as far as the runtime is concerned,
+    # and we are mocking out the actual API, so just send an empty request.
+    request = request_type()
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(type(client.transport.list_subscribers), "__call__") as call:
+        # Designate an appropriate return value for the call.
+        call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
+            service.ListSubscribersResponse(
+                topic="topic_value",
+                service_accounts=["service_accounts_value"],
+                next_page_token="next_page_token_value",
+            )
+        )
+
+        response = await client.list_subscribers(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls)
+        _, args, _ = call.mock_calls[0]
+
+        assert args[0] == service.ListSubscribersRequest()
+
+    # Establish that the response is the type that we expect.
+    assert isinstance(response, pagers.ListSubscribersAsyncPager)
+
+    assert response.topic == "topic_value"
+
+    assert response.service_accounts == ["service_accounts_value"]
+
+    assert response.next_page_token == "next_page_token_value"
+
+
+@pytest.mark.asyncio
+async def test_list_subscribers_async_from_dict():
+    await test_list_subscribers_async(request_type=dict)
+
+
+def test_list_subscribers_field_headers():
+    client = CloudChannelServiceClient(credentials=credentials.AnonymousCredentials(),)
+
+    # Any value that is part of the HTTP/1.1 URI should be sent as
+    # a field header. Set these to a non-empty value.
+    request = service.ListSubscribersRequest()
+    request.account = "account/value"
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(type(client.transport.list_subscribers), "__call__") as call:
+        call.return_value = service.ListSubscribersResponse()
+
+        client.list_subscribers(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls) == 1
+        _, args, _ = call.mock_calls[0]
+        assert args[0] == request
+
+    # Establish that the field header was sent.
+    _, _, kw = call.mock_calls[0]
+    assert ("x-goog-request-params", "account=account/value",) in kw["metadata"]
+
+
+@pytest.mark.asyncio
+async def test_list_subscribers_field_headers_async():
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials(),
+    )
+
+    # Any value that is part of the HTTP/1.1 URI should be sent as
+    # a field header. Set these to a non-empty value.
+    request = service.ListSubscribersRequest()
+    request.account = "account/value"
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(type(client.transport.list_subscribers), "__call__") as call:
+        call.return_value = grpc_helpers_async.FakeUnaryUnaryCall(
+            service.ListSubscribersResponse()
+        )
+
+        await client.list_subscribers(request)
+
+        # Establish that the underlying gRPC stub method was called.
+        assert len(call.mock_calls)
+        _, args, _ = call.mock_calls[0]
+        assert args[0] == request
+
+    # Establish that the field header was sent.
+    _, _, kw = call.mock_calls[0]
+    assert ("x-goog-request-params", "account=account/value",) in kw["metadata"]
+
+
+def test_list_subscribers_pager():
+    client = CloudChannelServiceClient(credentials=credentials.AnonymousCredentials,)
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(type(client.transport.list_subscribers), "__call__") as call:
+        # Set the response to a series of pages.
+        call.side_effect = (
+            service.ListSubscribersResponse(
+                service_accounts=[str(), str(), str(),], next_page_token="abc",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[], next_page_token="def",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[str(),], next_page_token="ghi",
+            ),
+            service.ListSubscribersResponse(service_accounts=[str(), str(),],),
+            RuntimeError,
+        )
+
+        metadata = ()
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("account", ""),)),
+        )
+        pager = client.list_subscribers(request={})
+
+        assert pager._metadata == metadata
+
+        results = [i for i in pager]
+        assert len(results) == 6
+        assert all(isinstance(i, str) for i in results)
+
+
+def test_list_subscribers_pages():
+    client = CloudChannelServiceClient(credentials=credentials.AnonymousCredentials,)
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(type(client.transport.list_subscribers), "__call__") as call:
+        # Set the response to a series of pages.
+        call.side_effect = (
+            service.ListSubscribersResponse(
+                service_accounts=[str(), str(), str(),], next_page_token="abc",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[], next_page_token="def",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[str(),], next_page_token="ghi",
+            ),
+            service.ListSubscribersResponse(service_accounts=[str(), str(),],),
+            RuntimeError,
+        )
+        pages = list(client.list_subscribers(request={}).pages)
+        for page_, token in zip(pages, ["abc", "def", "ghi", ""]):
+            assert page_.raw_page.next_page_token == token
+
+
+@pytest.mark.asyncio
+async def test_list_subscribers_async_pager():
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials,
+    )
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.list_subscribers), "__call__", new_callable=mock.AsyncMock
+    ) as call:
+        # Set the response to a series of pages.
+        call.side_effect = (
+            service.ListSubscribersResponse(
+                service_accounts=[str(), str(), str(),], next_page_token="abc",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[], next_page_token="def",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[str(),], next_page_token="ghi",
+            ),
+            service.ListSubscribersResponse(service_accounts=[str(), str(),],),
+            RuntimeError,
+        )
+        async_pager = await client.list_subscribers(request={},)
+        assert async_pager.next_page_token == "abc"
+        responses = []
+        async for response in async_pager:
+            responses.append(response)
+
+        assert len(responses) == 6
+        assert all(isinstance(i, str) for i in responses)
+
+
+@pytest.mark.asyncio
+async def test_list_subscribers_async_pages():
+    client = CloudChannelServiceAsyncClient(
+        credentials=credentials.AnonymousCredentials,
+    )
+
+    # Mock the actual call within the gRPC stub, and fake the request.
+    with mock.patch.object(
+        type(client.transport.list_subscribers), "__call__", new_callable=mock.AsyncMock
+    ) as call:
+        # Set the response to a series of pages.
+        call.side_effect = (
+            service.ListSubscribersResponse(
+                service_accounts=[str(), str(), str(),], next_page_token="abc",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[], next_page_token="def",
+            ),
+            service.ListSubscribersResponse(
+                service_accounts=[str(),], next_page_token="ghi",
+            ),
+            service.ListSubscribersResponse(service_accounts=[str(), str(),],),
+            RuntimeError,
+        )
+        pages = []
+        async for page_ in (await client.list_subscribers(request={})).pages:
+            pages.append(page_)
+        for page_, token in zip(pages, ["abc", "def", "ghi", ""]):
+            assert page_.raw_page.next_page_token == token
+
+
 def test_credentials_transport_error():
     # It is an error to provide credentials and a transport instance.
     transport = transports.CloudChannelServiceGrpcTransport(
@@ -6327,6 +6859,9 @@ def test_cloud_channel_service_base_transport():
         "list_offers",
         "list_purchasable_skus",
         "list_purchasable_offers",
+        "register_subscriber",
+        "unregister_subscriber",
+        "list_subscribers",
     )
     for method in methods:
         with pytest.raises(NotImplementedError):
