@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-channel.git",
-        "sha": "fae81e441e9a31e505e94a640f6aee9dbe42ea81"
+        "sha": "0d25fa6ad0e3fac43b7473523393c22cbd157129"
       }
     },
     {
