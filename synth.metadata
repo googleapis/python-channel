@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-channel.git",
-        "sha": "46af551df3ba21e0138a3493504a9f58a444017f"
+        "sha": "dc5395aee4540ec259b239731682123c23a437de"
       }
     },
     {
@@ -93,6 +93,7 @@
     "CONTRIBUTING.rst",
     "LICENSE",
     "MANIFEST.in",
+    "channel-v1-py.tar.gz",
     "docs/_static/custom.css",
     "docs/_templates/layout.html",
     "docs/channel_v1/cloud_channel_service.rst",
