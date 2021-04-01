@@ -127,8 +127,36 @@ class CloudChannelServiceAsyncClient:
         CloudChannelServiceClient.parse_common_location_path
     )
 
-    from_service_account_info = CloudChannelServiceClient.from_service_account_info
-    from_service_account_file = CloudChannelServiceClient.from_service_account_file
+    @classmethod
+    def from_service_account_info(cls, info: dict, *args, **kwargs):
+        """Creates an instance of this client using the provided credentials info.
+
+        Args:
+            info (dict): The service account private key info.
+            args: Additional arguments to pass to the constructor.
+            kwargs: Additional arguments to pass to the constructor.
+
+        Returns:
+            CloudChannelServiceAsyncClient: The constructed client.
+        """
+        return CloudChannelServiceClient.from_service_account_info.__func__(CloudChannelServiceAsyncClient, info, *args, **kwargs)  # type: ignore
+
+    @classmethod
+    def from_service_account_file(cls, filename: str, *args, **kwargs):
+        """Creates an instance of this client using the provided credentials
+        file.
+
+        Args:
+            filename (str): The path to the service account private key json
+                file.
+            args: Additional arguments to pass to the constructor.
+            kwargs: Additional arguments to pass to the constructor.
+
+        Returns:
+            CloudChannelServiceAsyncClient: The constructed client.
+        """
+        return CloudChannelServiceClient.from_service_account_file.__func__(CloudChannelServiceAsyncClient, filename, *args, **kwargs)  # type: ignore
+
     from_service_account_json = from_service_account_file
 
     @property
@@ -373,10 +401,12 @@ class CloudChannelServiceAsyncClient:
 
         Return Value: List of
         [CloudIdentityCustomerAccount][google.cloud.channel.v1.CloudIdentityCustomerAccount]
-        resources for the domain. List may be empty. Note: in the
-        v1alpha1 version of the API, a NOT_FOUND error is returned if no
+        resources for the domain. List may be empty.
+
+        Note: in the v1alpha1 version of the API, a NOT_FOUND error is
+        returned if no
         [CloudIdentityCustomerAccount][google.cloud.channel.v1.CloudIdentityCustomerAccount]
-        resource match the domain.
+        resources match the domain.
 
         Args:
             request (:class:`google.cloud.channel_v1.types.CheckCloudIdentityAccountsExistRequest`):
