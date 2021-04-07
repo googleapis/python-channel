@@ -25,7 +25,7 @@ common = gcp.CommonTemplates()
 # ----------------------------------------------------------------------------
 # Generate channel GAPIC layer
 # ----------------------------------------------------------------------------
-for library in s.get_staging_dirs('v1'):
+for library in s.get_staging_dirs("v1"):
     s.move(library, excludes=["setup.py", "README.rst", "docs/index.rst"])
 s.remove_staging_dirs()
 
