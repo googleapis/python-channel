@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 import warnings
-from typing import Callable, Dict, Optional, Sequence, Tuple
+from typing import Callable, Dict, Optional, Sequence, Tuple, Union
 
 from google.api_core import grpc_helpers  # type: ignore
 from google.api_core import operations_v1  # type: ignore
@@ -33,42 +31,35 @@ from google.cloud.channel_v1.types import entitlements
 from google.cloud.channel_v1.types import service
 from google.longrunning import operations_pb2 as operations  # type: ignore
 from google.protobuf import empty_pb2 as empty  # type: ignore
-
 from .base import CloudChannelServiceTransport, DEFAULT_CLIENT_INFO
 
 
 class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     """gRPC backend transport for CloudChannelService.
 
-    CloudChannelService enables Google cloud resellers and distributors
-    to manage their customers, channel partners, entitlements and
-    reports.
+    CloudChannelService lets Google cloud resellers and distributors
+    manage their customers, channel partners, entitlements, and reports.
 
     Using this service:
 
-    1. Resellers or distributors can manage a customer entity.
+    1. Resellers and distributors can manage a customer entity.
     2. Distributors can register an authorized reseller in their channel
-       and then enable delegated admin access for the reseller.
-    3. Resellers or distributors can manage entitlements for their
-       customers.
+       and provide them with delegated admin access.
+    3. Resellers and distributors can manage customer entitlements.
 
-    The service primarily exposes the following resources:
+    CloudChannelService exposes the following resources:
 
-    -  [Customer][google.cloud.channel.v1.Customer]s: A Customer
-       represents an entity managed by a reseller or distributor. A
-       customer typically represents an enterprise. In an n-tier resale
-       channel hierarchy, customers are generally represented as leaf
-       nodes. Customers primarily have an Entitlement sub-resource
-       discussed below.
+    -  [Customer][google.cloud.channel.v1.Customer]s: An entity—usually
+       an enterprise—managed by a reseller or distributor.
 
-    -  [Entitlement][google.cloud.channel.v1.Entitlement]s: An
-       Entitlement represents an entity which provides a customer means
-       to start using a service. Entitlements are created or updated as
-       a result of a successful fulfillment.
+    -  [Entitlement][google.cloud.channel.v1.Entitlement]s: An entity
+       that provides a customer with the means to use a service.
+       Entitlements are created or updated as a result of a successful
+       fulfillment.
 
     -  [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink]s:
-       A ChannelPartnerLink is an entity that identifies links between
-       distributors and their indirect resellers in a channel.
+       An entity that identifies links between distributors and their
+       indirect resellers in a channel.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -98,7 +89,8 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
         """Instantiate the transport.
 
         Args:
-            host (Optional[str]): The hostname to connect to.
+            host (Optional[str]):
+                 The hostname to connect to.
             credentials (Optional[google.auth.credentials.Credentials]): The
                 authorization credentials to attach to requests. These
                 credentials identify the application to the service; if none
@@ -240,13 +232,15 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
             google.api_core.exceptions.DuplicateCredentialArgs: If both ``credentials``
               and ``credentials_file`` are passed.
         """
-        scopes = scopes or cls.AUTH_SCOPES
+
+        self_signed_jwt_kwargs = cls._get_self_signed_jwt_kwargs(host, scopes)
+
         return grpc_helpers.create_channel(
             host,
             credentials=credentials,
             credentials_file=credentials_file,
-            scopes=scopes,
             quota_project_id=quota_project_id,
+            **self_signed_jwt_kwargs,
             **kwargs,
         )
 
@@ -274,20 +268,22 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def list_customers(
         self,
     ) -> Callable[[service.ListCustomersRequest], service.ListCustomersResponse]:
-        r"""Return a callable for the list customers method over gRPC.
+        r"""Return a callable for the
+        list customers
+          method over gRPC.
 
-        List downstream [Customer][google.cloud.channel.v1.Customer]s.
+        List [Customer][google.cloud.channel.v1.Customer]s.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
-        Return Value: List of
-        [Customer][google.cloud.channel.v1.Customer]s pertaining to the
-        reseller or empty list if there are none.
+        Return value: List of
+        [Customer][google.cloud.channel.v1.Customer]s, or an empty list
+        if there are no customers.
 
         Returns:
             Callable[[~.ListCustomersRequest],
@@ -311,22 +307,24 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def get_customer(
         self,
     ) -> Callable[[service.GetCustomerRequest], customers.Customer]:
-        r"""Return a callable for the get customer method over gRPC.
+        r"""Return a callable for the
+        get customer
+          method over gRPC.
 
         Returns a requested [Customer][google.cloud.channel.v1.Customer]
         resource.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: If the customer resource doesn't exist. Usually
-           the result of an invalid name parameter.
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: The customer resource doesn't exist. Usually the
+           result of an invalid name parameter.
 
-        Return Value: [Customer][google.cloud.channel.v1.Customer]
-        resource if found, error otherwise.
+        Return value: The [Customer][google.cloud.channel.v1.Customer]
+        resource.
 
         Returns:
             Callable[[~.GetCustomerRequest],
@@ -353,27 +351,29 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
         [service.CheckCloudIdentityAccountsExistRequest],
         service.CheckCloudIdentityAccountsExistResponse,
     ]:
-        r"""Return a callable for the check cloud identity accounts
-        exist method over gRPC.
+        r"""Return a callable for the
+        check cloud identity accounts
+        exist
+          method over gRPC.
 
-        Confirms the existence of Cloud Identity accounts, based on the
-        domain and whether the Cloud Identity accounts are owned by the
+        Confirms the existence of Cloud Identity accounts based on the
+        domain and if the Cloud Identity accounts are owned by the
         reseller.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  INVALID_VALUE: Invalid domain value in the request.
 
-        Return Value: List of
+        Return value: A list of
         [CloudIdentityCustomerAccount][google.cloud.channel.v1.CloudIdentityCustomerAccount]
-        resources for the domain. List may be empty.
+        resources for the domain (may be empty)
 
-        Note: in the v1alpha1 version of the API, a NOT_FOUND error is
-        returned if no
+        Note: in the v1alpha1 version of the API, a NOT_FOUND error
+        returns if no
         [CloudIdentityCustomerAccount][google.cloud.channel.v1.CloudIdentityCustomerAccount]
         resources match the domain.
 
@@ -401,24 +401,24 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def create_customer(
         self,
     ) -> Callable[[service.CreateCustomerRequest], customers.Customer]:
-        r"""Return a callable for the create customer method over gRPC.
+        r"""Return a callable for the
+        create customer
+          method over gRPC.
 
         Creates a new [Customer][google.cloud.channel.v1.Customer]
         resource under the reseller or distributor account.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: It can happen in following scenarios -
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT:
 
-           -  Missing or invalid required parameters in the request.
-           -  Domain field value doesn't match the domain specified in
-              primary email.
+           -  Required request parameters are missing or invalid.
+           -  Domain field value doesn't match the primary email domain.
 
-        Return Value: If successful, the newly created
-        [Customer][google.cloud.channel.v1.Customer] resource, otherwise
-        returns an error.
+        Return value: The newly created
+        [Customer][google.cloud.channel.v1.Customer] resource.
 
         Returns:
             Callable[[~.CreateCustomerRequest],
@@ -442,23 +442,24 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def update_customer(
         self,
     ) -> Callable[[service.UpdateCustomerRequest], customers.Customer]:
-        r"""Return a callable for the update customer method over gRPC.
+        r"""Return a callable for the
+        update customer
+          method over gRPC.
 
         Updates an existing [Customer][google.cloud.channel.v1.Customer]
-        resource belonging to the reseller or distributor.
+        resource for the reseller or distributor.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  NOT_FOUND: No [Customer][google.cloud.channel.v1.Customer]
-           resource found for the name specified in the request.
+           resource found for the name in the request.
 
-        Return Value: If successful, the updated
-        [Customer][google.cloud.channel.v1.Customer] resource, otherwise
-        returns an error.
+        Return value: The updated
+        [Customer][google.cloud.channel.v1.Customer] resource.
 
         Returns:
             Callable[[~.UpdateCustomerRequest],
@@ -480,21 +481,22 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
 
     @property
     def delete_customer(self) -> Callable[[service.DeleteCustomerRequest], empty.Empty]:
-        r"""Return a callable for the delete customer method over gRPC.
+        r"""Return a callable for the
+        delete customer
+          method over gRPC.
 
         Deletes the given [Customer][google.cloud.channel.v1.Customer]
         permanently and irreversibly.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the account making the request does not
+        -  PERMISSION_DENIED: The account making the request does not
            own this customer.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  FAILED_PRECONDITION: If the customer has existing
-           entitlements.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  FAILED_PRECONDITION: The customer has existing entitlements.
         -  NOT_FOUND: No [Customer][google.cloud.channel.v1.Customer]
-           resource found for the name specified in the request.
+           resource found for the name in the request.
 
         Returns:
             Callable[[~.DeleteCustomerRequest],
@@ -518,32 +520,32 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def provision_cloud_identity(
         self,
     ) -> Callable[[service.ProvisionCloudIdentityRequest], operations.Operation]:
-        r"""Return a callable for the provision cloud identity method over gRPC.
+        r"""Return a callable for the
+        provision cloud identity
+          method over gRPC.
 
         Creates a Cloud Identity for the given customer using the
-        customer's information or the information provided here, if
-        present.
+        customer's information, or the information provided here.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: If the customer is not found for the reseller.
-        -  ALREADY_EXISTS: If the customer's primary email already
-           exists. In this case, retry after changing the customer's
-           primary contact email.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: The customer was not found.
+        -  ALREADY_EXISTS: The customer's primary email already exists.
+           Retry after changing the customer's primary contact email.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. Contact Cloud Channel support in this case.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. Contact Cloud Channel support in this case.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
-        will contain an instance of
+        contains an instance of
         [OperationMetadata][google.cloud.channel.v1.OperationMetadata].
 
         Returns:
@@ -568,21 +570,22 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def list_entitlements(
         self,
     ) -> Callable[[service.ListEntitlementsRequest], service.ListEntitlementsResponse]:
-        r"""Return a callable for the list entitlements method over gRPC.
+        r"""Return a callable for the
+        list entitlements
+          method over gRPC.
 
-        List [Entitlement][google.cloud.channel.v1.Entitlement]s
+        Lists [Entitlement][google.cloud.channel.v1.Entitlement]s
         belonging to a customer.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
-        Return Value: List of
-        [Entitlement][google.cloud.channel.v1.Entitlement]s belonging to
-        the customer, or empty list if there are none.
+        Return value: A list of the customer's
+        [Entitlement][google.cloud.channel.v1.Entitlement]s.
 
         Returns:
             Callable[[~.ListEntitlementsRequest],
@@ -608,32 +611,33 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     ) -> Callable[
         [service.ListTransferableSkusRequest], service.ListTransferableSkusResponse
     ]:
-        r"""Return a callable for the list transferable skus method over gRPC.
+        r"""Return a callable for the
+        list transferable skus
+          method over gRPC.
 
         List [TransferableSku][google.cloud.channel.v1.TransferableSku]s
-        of a customer based on Cloud Identity ID or Customer Name in the
-        request.
+        of a customer based on the Cloud Identity ID or Customer Name in
+        the request.
 
-        This method is used when a reseller lists the entitlements
-        information of a customer that is not owned. The reseller should
-        provide the customer's Cloud Identity ID or Customer Name.
+        Use this method to list the entitlements information of an
+        unowned customer. You should provide the customer's Cloud
+        Identity ID or Customer Name.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: Appears because of one of the following -
+        -  PERMISSION_DENIED:
 
-           -  The customer doesn't belong to the reseller and no auth
-              token.
+           -  The customer doesn't belong to the reseller and has no
+              auth token.
            -  The supplied auth token is invalid.
-           -  The reseller account making the request and the queries
-              reseller account are different.
+           -  The reseller account making the request is different from
+              the reseller account in the query.
 
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
-        Return Value: List of
-        [TransferableSku][google.cloud.channel.v1.TransferableSku] for
-        the given customer.
+        Return value: A list of the customer's
+        [TransferableSku][google.cloud.channel.v1.TransferableSku].
 
         Returns:
             Callable[[~.ListTransferableSkusRequest],
@@ -659,30 +663,33 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     ) -> Callable[
         [service.ListTransferableOffersRequest], service.ListTransferableOffersResponse
     ]:
-        r"""Return a callable for the list transferable offers method over gRPC.
+        r"""Return a callable for the
+        list transferable offers
+          method over gRPC.
 
         List
         [TransferableOffer][google.cloud.channel.v1.TransferableOffer]s
         of a customer based on Cloud Identity ID or Customer Name in the
         request.
 
-        This method is used when a reseller gets the entitlement
-        information of a customer that is not owned. The reseller should
-        provide the customer's Cloud Identity ID or Customer Name.
+        Use this method when a reseller gets the entitlement information
+        of an unowned customer. The reseller should provide the
+        customer's Cloud Identity ID or Customer Name.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: Appears because of one of the following:
+        -  PERMISSION_DENIED:
 
-           -  If the customer doesn't belong to the reseller and no auth
-              token or invalid auth token is supplied.
-           -  If the reseller account making the request and the
-              reseller account being queried for are different.
+           -  The customer doesn't belong to the reseller and has no
+              auth token.
+           -  The supplied auth token is invalid.
+           -  The reseller account making the request is different from
+              the reseller account in the query.
 
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
-        Return Value: List of
+        Return value: List of
         [TransferableOffer][google.cloud.channel.v1.TransferableOffer]
         for the given customer and SKU.
 
@@ -708,22 +715,23 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def get_entitlement(
         self,
     ) -> Callable[[service.GetEntitlementRequest], entitlements.Entitlement]:
-        r"""Return a callable for the get entitlement method over gRPC.
+        r"""Return a callable for the
+        get entitlement
+          method over gRPC.
 
         Returns a requested
         [Entitlement][google.cloud.channel.v1.Entitlement] resource.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: If the entitlement is not found for the customer.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: The customer entitlement was not found.
 
-        Return Value: If found, the requested
-        [Entitlement][google.cloud.channel.v1.Entitlement] resource,
-        otherwise returns an error.
+        Return value: The requested
+        [Entitlement][google.cloud.channel.v1.Entitlement] resource.
 
         Returns:
             Callable[[~.GetEntitlementRequest],
@@ -747,55 +755,50 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def create_entitlement(
         self,
     ) -> Callable[[service.CreateEntitlementRequest], operations.Operation]:
-        r"""Return a callable for the create entitlement method over gRPC.
+        r"""Return a callable for the
+        create entitlement
+          method over gRPC.
 
         Creates an entitlement for a customer.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: It can happen in below scenarios -
+        -  INVALID_ARGUMENT:
 
-           -  Missing or invalid required parameters in the request.
-           -  Cannot purchase an entitlement if there is already an
-              entitlement for customer, for a SKU from the same product
-              family.
-           -  INVALID_VALUE: Offer passed in isn't valid. Make sure
-              OfferId is valid. If it is valid, then contact Google
-              Channel support for further troubleshooting.
+           -  Required request parameters are missing or invalid.
+           -  There is already a customer entitlement for a SKU from the
+              same product family.
 
-        -  NOT_FOUND: If the customer or offer resource is not found for
-           the reseller.
-        -  ALREADY_EXISTS: This failure can happen in the following
-           cases:
+        -  INVALID_VALUE: Make sure the OfferId is valid. If it is,
+           contact Google Channel support for further troubleshooting.
+        -  NOT_FOUND: The customer or offer resource was not found.
+        -  ALREADY_EXISTS:
 
-           -  If the SKU has been already purchased for the customer.
-           -  If the customer's primary email already exists. In this
-              case retry after changing the customer's primary contact
-              email.
+           -  The SKU was already purchased for the customer.
+           -  The customer's primary email already exists. Retry after
+              changing the customer's primary contact email.
 
-        -  CONDITION_NOT_MET or FAILED_PRECONDITION: This failure can
-           happen in the following cases:
+        -  CONDITION_NOT_MET or FAILED_PRECONDITION:
 
-           -  Purchasing a SKU that requires domain verification and the
-              domain has not been verified.
-           -  Purchasing an Add-On SKU like Vault or Drive without
-              purchasing the pre-requisite SKU, such as Google Workspace
-              Business Starter.
-           -  Applicable only for developer accounts: reseller and
-              resold domain. Must meet the following domain naming
-              requirements:
+           -  The domain required for purchasing a SKU has not been
+              verified.
+           -  A pre-requisite SKU required to purchase an Add-On SKU is
+              missing. For example, Google Workspace Business Starter is
+              required to purchase Vault or Drive.
+           -  (Developer accounts only) Reseller and resold domain must
+              meet the following naming requirements:
 
               -  Domain names must start with goog-test.
-              -  Resold domain names must include the reseller domain.
+              -  Domain names must include the reseller domain.
 
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. Contact Cloud Channel Support in this case.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. Contact Cloud Channel Support in this case.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -824,30 +827,30 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def change_parameters(
         self,
     ) -> Callable[[service.ChangeParametersRequest], operations.Operation]:
-        r"""Return a callable for the change parameters method over gRPC.
+        r"""Return a callable for the
+        change parameters
+          method over gRPC.
 
-        Change parameters of the entitlement
+        Change parameters of the entitlement.
 
-        An entitlement parameters update is a long-running operation and
-        results in updates to the entitlement as a result of
-        fulfillment.
+        An entitlement update is a long-running operation and it updates
+        the entitlement as a result of fulfillment.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request. For example, if the number of seats being
-           changed to is greater than the allowed number of max seats
-           for the resource. Or decreasing seats for a commitment based
-           plan.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid. For example, the number of seats being changed is
+           greater than the allowed number of max seats, or decreasing
+           seats for a commitment based plan.
         -  NOT_FOUND: Entitlement resource not found.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -876,30 +879,32 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def change_renewal_settings(
         self,
     ) -> Callable[[service.ChangeRenewalSettingsRequest], operations.Operation]:
-        r"""Return a callable for the change renewal settings method over gRPC.
+        r"""Return a callable for the
+        change renewal settings
+          method over gRPC.
 
         Updates the renewal settings for an existing customer
         entitlement.
 
-        An entitlement update is a long-running operation and results in
-        updates to the entitlement as a result of fulfillment.
+        An entitlement update is a long-running operation and it updates
+        the entitlement as a result of fulfillment.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  NOT_FOUND: Entitlement resource not found.
         -  NOT_COMMITMENT_PLAN: Renewal Settings are only applicable for
-           a commitment plan. Can't enable or disable renewal for
+           a commitment plan. Can't enable or disable renewals for
            non-commitment plans.
-        -  INTERNAL: Any non user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
-        -  UNKNOWN: Any non user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+        -  INTERNAL: Any non-user error related to a technical issue in
+           the backend. Contact Cloud Channel support.
+        -  UNKNOWN: Any non-user error related to a technical issue in
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -928,26 +933,28 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def change_offer(
         self,
     ) -> Callable[[service.ChangeOfferRequest], operations.Operation]:
-        r"""Return a callable for the change offer method over gRPC.
+        r"""Return a callable for the
+        change offer
+          method over gRPC.
 
         Updates the Offer for an existing customer entitlement.
 
-        An entitlement update is a long-running operation and results in
-        updates to the entitlement as a result of fulfillment.
+        An entitlement update is a long-running operation and it updates
+        the entitlement as a result of fulfillment.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  NOT_FOUND: Offer or Entitlement resource not found.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -976,29 +983,31 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def start_paid_service(
         self,
     ) -> Callable[[service.StartPaidServiceRequest], operations.Operation]:
-        r"""Return a callable for the start paid service method over gRPC.
+        r"""Return a callable for the
+        start paid service
+          method over gRPC.
 
         Starts paid service for a trial entitlement.
 
         Starts paid service for a trial entitlement immediately. This
-        method is only applicable if a plan has already been set up for
-        a trial entitlement but has some trial days remaining.
+        method is only applicable if a plan is set up for a trial
+        entitlement but has some trial days remaining.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  NOT_FOUND: Entitlement resource not found.
         -  FAILED_PRECONDITION/NOT_IN_TRIAL: This method only works for
            entitlement on trial plans.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -1027,25 +1036,28 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def suspend_entitlement(
         self,
     ) -> Callable[[service.SuspendEntitlementRequest], operations.Operation]:
-        r"""Return a callable for the suspend entitlement method over gRPC.
+        r"""Return a callable for the
+        suspend entitlement
+          method over gRPC.
 
-        Suspends a previously fulfilled entitlement. An entitlement
-        suspension is a long-running operation.
+        Suspends a previously fulfilled entitlement.
 
-        Possible Error Codes:
+        An entitlement suspension is a long-running operation.
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        Possible error codes:
+
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  NOT_FOUND: Entitlement resource not found.
         -  NOT_ACTIVE: Entitlement is not active.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -1074,31 +1086,32 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def cancel_entitlement(
         self,
     ) -> Callable[[service.CancelEntitlementRequest], operations.Operation]:
-        r"""Return a callable for the cancel entitlement method over gRPC.
+        r"""Return a callable for the
+        cancel entitlement
+          method over gRPC.
 
-        Cancels a previously fulfilled entitlement. An entitlement
-        cancellation is a long-running operation.
+        Cancels a previously fulfilled entitlement.
 
-        Possible Error Codes:
+        An entitlement cancellation is a long-running operation.
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
-           reseller or if the reseller account making the request and
-           reseller account being queried for are different.
-        -  FAILED_PRECONDITION: If there are any Google Cloud projects
-           linked to the Google Cloud entitlement's Cloud Billing
-           subaccount.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        Possible error codes:
+
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  FAILED_PRECONDITION: There are Google Cloud projects linked
+           to the Google Cloud entitlement's Cloud Billing subaccount.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  NOT_FOUND: Entitlement resource not found.
         -  DELETION_TYPE_NOT_ALLOWED: Cancel is only allowed for Google
-           Workspace add-ons or entitlements for Google Cloud's
+           Workspace add-ons, or entitlements for Google Cloud's
            development platform.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The response will
@@ -1128,34 +1141,35 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def activate_entitlement(
         self,
     ) -> Callable[[service.ActivateEntitlementRequest], operations.Operation]:
-        r"""Return a callable for the activate entitlement method over gRPC.
+        r"""Return a callable for the
+        activate entitlement
+          method over gRPC.
 
-        Activates a previously suspended entitlement. The entitlement
-        must be in a suspended state for it to be activated.
-        Entitlements suspended for pending ToS acceptance can't be
-        activated using this method. An entitlement activation is a
-        long-running operation and can result in updates to the state of
-        the customer entitlement.
+        Activates a previously suspended entitlement. Entitlements
+        suspended for pending ToS acceptance can't be activated using
+        this method.
 
-        Possible Error Codes:
+        An entitlement activation is a long-running operation and it
+        updates the state of the customer entitlement.
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
-           reseller or if the reseller account making the request and
-           reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        Possible error codes:
+
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  NOT_FOUND: Entitlement resource not found.
-        -  SUSPENSION_NOT_RESELLER_INITIATED: Can't activate an
-           entitlement that is pending TOS acceptance. Only reseller
-           initiated suspensions can be activated.
-        -  NOT_SUSPENDED: Can't activate entitlements that are already
-           in ACTIVE state. Can only activate suspended entitlements.
+        -  SUSPENSION_NOT_RESELLER_INITIATED: Can only activate
+           reseller-initiated suspensions and entitlements that have
+           accepted the TOS.
+        -  NOT_SUSPENDED: Can only activate suspended entitlements not
+           in an ACTIVE state.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -1184,44 +1198,41 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def transfer_entitlements(
         self,
     ) -> Callable[[service.TransferEntitlementsRequest], operations.Operation]:
-        r"""Return a callable for the transfer entitlements method over gRPC.
+        r"""Return a callable for the
+        transfer entitlements
+          method over gRPC.
 
         Transfers customer entitlements to new reseller.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: If the customer or offer resource is not found for
-           the reseller.
-        -  ALREADY_EXISTS: If the SKU has been already transferred for
-           the customer.
-        -  CONDITION_NOT_MET or FAILED_PRECONDITION: This failure can
-           happen in the following cases:
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: The customer or offer resource was not found.
+        -  ALREADY_EXISTS: The SKU was already transferred for the
+           customer.
+        -  CONDITION_NOT_MET or FAILED_PRECONDITION:
 
-           -  Transferring a SKU that requires domain verification and
-              the domain has not been verified.
-           -  Transferring an Add-On SKU like Vault or Drive without
-              transferring the pre-requisite SKU, such as G Suite Basic.
-           -  Applicable only for developer accounts: reseller and
-              resold domain must follow the domain naming convention as
-              follows:
+           -  The SKU requires domain verification to transfer, but the
+              domain is not verified.
+           -  An Add-On SKU (example, Vault or Drive) is missing the
+              pre-requisite SKU (example, G Suite Basic).
+           -  (Developer accounts only) Reseller and resold domain must
+              meet the following naming requirements:
 
               -  Domain names must start with goog-test.
-              -  Resold domain names must include the reseller domain.
+              -  Domain names must include the reseller domain.
 
-           -  All transferring entitlements must be specified.
+           -  Specify all transferring entitlements.
 
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. Please contact Cloud Channel Support in this
-           case.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. Please contact Cloud Channel Support in this
-           case.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The Operation metadata
@@ -1250,43 +1261,41 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def transfer_entitlements_to_google(
         self,
     ) -> Callable[[service.TransferEntitlementsToGoogleRequest], operations.Operation]:
-        r"""Return a callable for the transfer entitlements to
-        google method over gRPC.
+        r"""Return a callable for the
+        transfer entitlements to
+        google
+          method over gRPC.
 
-        Transfers customer entitlements from current reseller to Google.
+        Transfers customer entitlements from their current reseller to
+        Google.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: If the customer or offer resource is not found for
-           the reseller.
-        -  ALREADY_EXISTS: If the SKU has been already transferred for
-           the customer.
-        -  CONDITION_NOT_MET or FAILED_PRECONDITION: This failure can
-           happen in the following cases:
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: The customer or offer resource was not found.
+        -  ALREADY_EXISTS: The SKU was already transferred for the
+           customer.
+        -  CONDITION_NOT_MET or FAILED_PRECONDITION:
 
-           -  Transferring a SKU that requires domain verification and
-              the domain has not been verified.
-           -  Transferring an Add-On SKU like Vault or Drive without
-              purchasing the pre-requisite SKU, such as G Suite Basic.
-           -  Applicable only for developer accounts: reseller and
-              resold domain must follow the domain naming convention as
-              follows:
+           -  The SKU requires domain verification to transfer, but the
+              domain is not verified.
+           -  An Add-On SKU (example, Vault or Drive) is missing the
+              pre-requisite SKU (example, G Suite Basic).
+           -  (Developer accounts only) Reseller and resold domain must
+              meet the following naming requirements:
 
               -  Domain names must start with goog-test.
-              -  Resold domain names must include the reseller domain.
+              -  Domain names must include the reseller domain.
 
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. Please contact Cloud Channel Support in this
-           case.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. Please contact Cloud Channel Support in this
-           case.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Long Running Operation ID.
+        Return value: The ID of a long-running operation.
 
         To get the results of the operation, call the GetOperation
         method of CloudChannelOperationsService. The response will
@@ -1321,24 +1330,25 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
         [service.ListChannelPartnerLinksRequest],
         service.ListChannelPartnerLinksResponse,
     ]:
-        r"""Return a callable for the list channel partner links method over gRPC.
+        r"""Return a callable for the
+        list channel partner links
+          method over gRPC.
 
         List
         [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink]s
-        belonging to a distributor. To call this method, you must be a
-        distributor.
+        belonging to a distributor. You must be a distributor to call
+        this method.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
-        Return Value: If successful, returns the list of
+        Return value: The list of the distributor account's
         [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink]
-        resources for the distributor account, otherwise returns an
-        error.
+        resources.
 
         Returns:
             Callable[[~.ListChannelPartnerLinksRequest],
@@ -1364,24 +1374,26 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     ) -> Callable[
         [service.GetChannelPartnerLinkRequest], channel_partner_links.ChannelPartnerLink
     ]:
-        r"""Return a callable for the get channel partner link method over gRPC.
+        r"""Return a callable for the
+        get channel partner link
+          method over gRPC.
 
         Returns a requested
         [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink]
-        resource. To call this method, you must be a distributor.
+        resource. You must be a distributor to call this method.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: ChannelPartnerLink resource not found. Results due
-           invalid channel partner link name.
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: ChannelPartnerLink resource not found because of
+           an invalid channel partner link name.
 
-        Return Value:
+        Return value: The
         [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink]
-        resource if found, otherwise returns an error.
+        resource.
 
         Returns:
             Callable[[~.GetChannelPartnerLinkRequest],
@@ -1408,33 +1420,35 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
         [service.CreateChannelPartnerLinkRequest],
         channel_partner_links.ChannelPartnerLink,
     ]:
-        r"""Return a callable for the create channel partner link method over gRPC.
+        r"""Return a callable for the
+        create channel partner link
+          method over gRPC.
 
         Initiates a channel partner link between a distributor and a
-        reseller or between resellers in an n-tier reseller channel. To
-        accept the invite, the invited partner should follow the
-        invite_link_uri provided in the response. If the link creation
-        is accepted, a valid link is set up between the two involved
-        parties. To call this method, you must be a distributor.
+        reseller, or between resellers in an n-tier reseller channel.
+        Invited partners need to follow the invite_link_uri provided in
+        the response to accept. After accepting the invitation, a link
+        is set up between the two parties. You must be a distributor to
+        call this method.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  ALREADY_EXISTS: If the ChannelPartnerLink sent in the request
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  ALREADY_EXISTS: The ChannelPartnerLink sent in the request
            already exists.
-        -  NOT_FOUND: If no Cloud Identity customer exists for domain
-           provided.
+        -  NOT_FOUND: No Cloud Identity customer exists for provided
+           domain.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Newly created
+        Return value: The new
         [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink]
-        resource if successful, otherwise error is returned.
+        resource.
 
         Returns:
             Callable[[~.CreateChannelPartnerLinkRequest],
@@ -1461,32 +1475,35 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
         [service.UpdateChannelPartnerLinkRequest],
         channel_partner_links.ChannelPartnerLink,
     ]:
-        r"""Return a callable for the update channel partner link method over gRPC.
+        r"""Return a callable for the
+        update channel partner link
+          method over gRPC.
 
-        Updates a channel partner link. A distributor calls this method
-        to change a link's status. For example, suspend a partner link.
-        To call this method, you must be a distributor.
+        Updates a channel partner link. Distributors call this method to
+        change a link's status. For example, to suspend a partner link.
+        You must be a distributor to call this method.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being queried for are different.
-        -  INVALID_ARGUMENT: It can happen in following scenarios -
+        -  PERMISSION_DENIED: The reseller account making the request is
+           different from the reseller account in the API request.
+        -  INVALID_ARGUMENT:
 
-           -  Missing or invalid required parameters in the request.
-           -  Updating link state from invited to active or suspended.
-           -  Sending reseller_cloud_identity_id, invite_url or name in
-              update mask.
+           -  Required request parameters are missing or invalid.
+           -  Link state cannot change from invited to active or
+              suspended.
+           -  Cannot send reseller_cloud_identity_id, invite_url, or
+              name in update mask.
 
         -  NOT_FOUND: ChannelPartnerLink resource not found.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: If successful, the updated
+        Return value: The updated
         [ChannelPartnerLink][google.cloud.channel.v1.ChannelPartnerLink]
-        resource, otherwise returns an error.
+        resource.
 
         Returns:
             Callable[[~.UpdateChannelPartnerLinkRequest],
@@ -1510,14 +1527,16 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def list_products(
         self,
     ) -> Callable[[service.ListProductsRequest], service.ListProductsResponse]:
-        r"""Return a callable for the list products method over gRPC.
+        r"""Return a callable for the
+        list products
+          method over gRPC.
 
         Lists the Products the reseller is authorized to sell.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
         Returns:
             Callable[[~.ListProductsRequest],
@@ -1541,14 +1560,16 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def list_skus(
         self,
     ) -> Callable[[service.ListSkusRequest], service.ListSkusResponse]:
-        r"""Return a callable for the list skus method over gRPC.
+        r"""Return a callable for the
+        list skus
+          method over gRPC.
 
         Lists the SKUs for a product the reseller is authorized to sell.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
         Returns:
             Callable[[~.ListSkusRequest],
@@ -1572,14 +1593,16 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def list_offers(
         self,
     ) -> Callable[[service.ListOffersRequest], service.ListOffersResponse]:
-        r"""Return a callable for the list offers method over gRPC.
+        r"""Return a callable for the
+        list offers
+          method over gRPC.
 
         Lists the Offers the reseller can sell.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
         Returns:
             Callable[[~.ListOffersRequest],
@@ -1605,19 +1628,21 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     ) -> Callable[
         [service.ListPurchasableSkusRequest], service.ListPurchasableSkusResponse
     ]:
-        r"""Return a callable for the list purchasable skus method over gRPC.
+        r"""Return a callable for the
+        list purchasable skus
+          method over gRPC.
 
-        Lists the Purchasable SKUs for following cases:
+        Lists the following:
 
-        -  SKUs that can be newly purchased for a customer
-        -  SKUs that can be upgraded/downgraded to, for an entitlement.
+        -  SKUs that you can purchase for a customer
+        -  SKUs that you can upgrade or downgrade for an entitlement.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
-           reseller
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  PERMISSION_DENIED: The customer doesn't belong to the
+           reseller.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
         Returns:
             Callable[[~.ListPurchasableSkusRequest],
@@ -1643,19 +1668,21 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     ) -> Callable[
         [service.ListPurchasableOffersRequest], service.ListPurchasableOffersResponse
     ]:
-        r"""Return a callable for the list purchasable offers method over gRPC.
+        r"""Return a callable for the
+        list purchasable offers
+          method over gRPC.
 
-        Lists the Purchasable Offers for the following cases:
+        Lists the following:
 
-        -  Offers that can be newly purchased for a customer
-        -  Offers that can be changed to, for an entitlement.
+        -  Offers that you can purchase for a customer.
+        -  Offers that you can change for an entitlement.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the customer doesn't belong to the
+        -  PERMISSION_DENIED: The customer doesn't belong to the
            reseller
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
 
         Returns:
             Callable[[~.ListPurchasableOffersRequest],
@@ -1681,27 +1708,29 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     ) -> Callable[
         [service.RegisterSubscriberRequest], service.RegisterSubscriberResponse
     ]:
-        r"""Return a callable for the register subscriber method over gRPC.
+        r"""Return a callable for the
+        register subscriber
+          method over gRPC.
 
         Registers a service account with subscriber privileges on the
-        Cloud Pub/Sub topic created for this Channel Services account.
-        Once you create a subscriber, you will get the events as per
+        Cloud Pub/Sub topic for this Channel Services account. After you
+        create a subscriber, you get the events through
         [SubscriberEvent][google.cloud.channel.v1.SubscriberEvent]
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being provided are different, or if
-           the impersonated user is not a super admin.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
+        -  PERMISSION_DENIED: The reseller account making the request
+           and the provided reseller account are different, or the
+           impersonated user is not a super admin.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Topic name with service email address registered
-        if successful, otherwise error is returned.
+        Return value: The topic name with the registered service email
+        address.
 
         Returns:
             Callable[[~.RegisterSubscriberRequest],
@@ -1727,31 +1756,32 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     ) -> Callable[
         [service.UnregisterSubscriberRequest], service.UnregisterSubscriberResponse
     ]:
-        r"""Return a callable for the unregister subscriber method over gRPC.
+        r"""Return a callable for the
+        unregister subscriber
+          method over gRPC.
 
         Unregisters a service account with subscriber privileges on the
         Cloud Pub/Sub topic created for this Channel Services account.
-        If there are no more service account left with sunbscriber
-        privileges, the topic will be deleted. You can check this by
-        calling ListSubscribers api.
+        If there are no service accounts left with subscriber
+        privileges, this deletes the topic. You can call ListSubscribers
+        to check for these accounts.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being provided are different, or if
-           the impersonated user is not a super admin.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: If the topic resource doesn't exist.
+        -  PERMISSION_DENIED: The reseller account making the request
+           and the provided reseller account are different, or the
+           impersonated user is not a super admin.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: The topic resource doesn't exist.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: Topic name from which service email address has
-        been unregistered if successful, otherwise error is returned. If
-        the service email was already not associated with the topic, the
-        success response will be returned.
+        Return value: The topic name that unregistered the service email
+        address. Returns a success response if the service email address
+        wasn't registered with the topic.
 
         Returns:
             Callable[[~.UnregisterSubscriberRequest],
@@ -1775,26 +1805,27 @@ class CloudChannelServiceGrpcTransport(CloudChannelServiceTransport):
     def list_subscribers(
         self,
     ) -> Callable[[service.ListSubscribersRequest], service.ListSubscribersResponse]:
-        r"""Return a callable for the list subscribers method over gRPC.
+        r"""Return a callable for the
+        list subscribers
+          method over gRPC.
 
         Lists service accounts with subscriber privileges on the Cloud
         Pub/Sub topic created for this Channel Services account.
 
-        Possible Error Codes:
+        Possible error codes:
 
-        -  PERMISSION_DENIED: If the reseller account making the request
-           and the reseller account being provided are different, or if
-           the account is not a super admin.
-        -  INVALID_ARGUMENT: Missing or invalid required parameters in
-           the request.
-        -  NOT_FOUND: If the topic resource doesn't exist.
+        -  PERMISSION_DENIED: The reseller account making the request
+           and the provided reseller account are different, or the
+           impersonated user is not a super admin.
+        -  INVALID_ARGUMENT: Required request parameters are missing or
+           invalid.
+        -  NOT_FOUND: The topic resource doesn't exist.
         -  INTERNAL: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
         -  UNKNOWN: Any non-user error related to a technical issue in
-           the backend. In this case, contact Cloud Channel support.
+           the backend. Contact Cloud Channel support.
 
-        Return Value: List of service email addresses if successful,
-        otherwise error is returned.
+        Return value: A list of service email addresses.
 
         Returns:
             Callable[[~.ListSubscribersRequest],
