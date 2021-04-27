@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +15,7 @@
 #
 
 from .services.cloud_channel_service import CloudChannelServiceClient
+
 from .types.channel_partner_links import ChannelPartnerLink
 from .types.channel_partner_links import ChannelPartnerLinkState
 from .types.channel_partner_links import ChannelPartnerLinkView
@@ -110,7 +110,6 @@ from .types.service import UpdateCustomerRequest
 from .types.subscriber_event import CustomerEvent
 from .types.subscriber_event import EntitlementEvent
 from .types.subscriber_event import SubscriberEvent
-
 
 __all__ = (
     "ActivateEntitlementRequest",
