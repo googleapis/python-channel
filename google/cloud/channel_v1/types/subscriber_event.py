@@ -39,6 +39,8 @@ class CustomerEvent(proto.Message):
     class Type(proto.Enum):
         r"""Type of customer event."""
         TYPE_UNSPECIFIED = 0
+        PRIMARY_DOMAIN_CHANGED = 1
+        PRIMARY_DOMAIN_VERIFIED = 2
 
     customer = proto.Field(proto.STRING, number=1)
 
