@@ -274,6 +274,9 @@ class TransferableSku(proto.Message):
         sku (google.cloud.channel_v1.types.Sku):
             The SKU pertaining to the provisioning
             resource as specified in the Offer.
+        legacy_sku (google.cloud.channel_v1.types.Sku):
+            Optional. The customer to transfer has an
+            entitlement with the populated legacy SKU.
     """
 
     transfer_eligibility = proto.Field(
@@ -281,6 +284,8 @@ class TransferableSku(proto.Message):
     )
 
     sku = proto.Field(proto.MESSAGE, number=11, message=products.Sku,)
+
+    legacy_sku = proto.Field(proto.MESSAGE, number=12, message=products.Sku,)
 
 
 class TransferEligibility(proto.Message):

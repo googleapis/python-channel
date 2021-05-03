@@ -94,11 +94,11 @@ class CheckCloudIdentityAccountsExistRequest(proto.Message):
 
     Attributes:
         parent (str):
-            Required. The resource name of the reseller account. The
-            parent takes the format: accounts/{account_id}
+            Required. The reseller account's resource name. Parent uses
+            the format: accounts/{account_id}
         domain (str):
-            Required. Domain for which the Cloud Identity
-            account customer is fetched.
+            Required. Domain to fetch for Cloud Identity
+            account customer.
     """
 
     parent = proto.Field(proto.STRING, number=1)
@@ -107,25 +107,24 @@ class CheckCloudIdentityAccountsExistRequest(proto.Message):
 
 
 class CloudIdentityCustomerAccount(proto.Message):
-    r"""Entity representing a Cloud Identity account which may or may
-    not be associated with a Channel Services API partner.
+    r"""Entity representing a Cloud Identity account that may be
+    associated with a Channel Services API partner.
 
     Attributes:
         existing (bool):
-            True if a Cloud Identity account exists for a
-            specific domain.
+            Returns true if a Cloud Identity account
+            exists for a specific domain.
         owned (bool):
-            True if the Cloud Identity account is
-            associated with a customer belonging to the
-            Channel Services partner making the API call.
+            Returns true if the Cloud Identity account is
+            associated with a customer of the Channel
+            Services partner.
         customer_name (str):
-            Name of the customer that owns the Cloud Identity account.
-            This field is populated ONLY if owned = true. The
-            customer_name takes the format:
+            If owned = true, the name of the customer that owns the
+            Cloud Identity account. Customer_name uses the format:
             accounts/{account_id}/customers/{customer_id}
         customer_cloud_identity_id (str):
-            Cloud Identity ID of the customer. This field
-            is populated ONLY if existing = true.
+            If existing = true, the Cloud Identity ID of
+            the customer.
     """
 
     existing = proto.Field(proto.BOOL, number=1)
@@ -158,18 +157,17 @@ class ListCustomersRequest(proto.Message):
 
     Attributes:
         parent (str):
-            Required. The resource name of the reseller account from
-            which to list customers. The parent takes the format:
+            Required. The resource name of the reseller account to list
+            customers from. Parent uses the format:
             accounts/{account_id}.
         page_size (int):
             Optional. The maximum number of customers to
             return. The service may return fewer than this
-            value. If unspecified, at most 10 customers will
-            be returned. The maximum value is 50; values
-            about 50 will be coerced to 50.
+            value. If unspecified, returns at most 10
+            customers. The maximum value is 50.
         page_token (str):
-            Optional. A token identifying a page of results, if other
-            than the first one. Typically obtained via
+            Optional. A token identifying a page of results other than
+            the first page. Obtained through
             [ListCustomersResponse.next_page_token][google.cloud.channel.v1.ListCustomersResponse.next_page_token]
             of the previous
             [CloudChannelService.ListCustomers][google.cloud.channel.v1.CloudChannelService.ListCustomers]
@@ -189,7 +187,7 @@ class ListCustomersResponse(proto.Message):
 
     Attributes:
         customers (Sequence[google.cloud.channel_v1.types.Customer]):
-            The customers belonging to the reseller or
+            The customers belonging to a reseller or
             distributor.
         next_page_token (str):
             A token to retrieve the next page of results. Pass to
@@ -214,8 +212,8 @@ class GetCustomerRequest(proto.Message):
 
     Attributes:
         name (str):
-            Required. The resource name of the customer to retrieve. The
-            name takes the format:
+            Required. The resource name of the customer to retrieve.
+            Name uses the format:
             accounts/{account_id}/customers/{customer_id}
     """
 
@@ -229,7 +227,7 @@ class CreateCustomerRequest(proto.Message):
     Attributes:
         parent (str):
             Required. The resource name of reseller account in which to
-            create the customer. The parent takes the format:
+            create the customer. Parent uses the format:
             accounts/{account_id}
         customer (google.cloud.channel_v1.types.Customer):
             Required. The customer to create.
@@ -283,8 +281,8 @@ class ProvisionCloudIdentityRequest(proto.Message):
         user (google.cloud.channel_v1.types.AdminUser):
             Admin user information.
         validate_only (bool):
-            If set, validate the request and preview the
-            review, but do not actually post it.
+            Validate the request and preview the review,
+            but do not post it.
     """
 
     customer = proto.Field(proto.STRING, number=1)
@@ -305,17 +303,17 @@ class ListEntitlementsRequest(proto.Message):
     Attributes:
         parent (str):
             Required. The resource name of the reseller's customer
-            account for which to list entitlements. The parent takes the
-            format: accounts/{account_id}/customers/{customer_id}
+            account to list entitlements for. Parent uses the format:
+            accounts/{account_id}/customers/{customer_id}
         page_size (int):
             Optional. Requested page size. Server might
             return fewer results than requested. If
-            unspecified, at most 50 entitlements will be
-            returned. The maximum value is 100; values above
-            100 will be coerced to 100.
+            unspecified, return at most 50 entitlements. The
+            maximum value is 100; the server will coerce
+            values above 100.
         page_token (str):
-            Optional. A token identifying a page of results, if other
-            than the first one. Typically obtained via
+            Optional. A token for a page of results other than the first
+            page. Obtained using
             [ListEntitlementsResponse.next_page_token][google.cloud.channel.v1.ListEntitlementsResponse.next_page_token]
             of the previous
             [CloudChannelService.ListEntitlements][google.cloud.channel.v1.CloudChannelService.ListEntitlements]
@@ -335,10 +333,9 @@ class ListEntitlementsResponse(proto.Message):
 
     Attributes:
         entitlements (Sequence[google.cloud.channel_v1.types.Entitlement]):
-            The entitlements belonging to the reseller's
-            customer.
+            The reseller customer's entitlements.
         next_page_token (str):
-            A token to List next page of results. Pass to
+            A token to list the next page of results. Pass to
             [ListEntitlementsRequest.page_token][google.cloud.channel.v1.ListEntitlementsRequest.page_token]
             to obtain that page.
     """
@@ -363,38 +360,38 @@ class ListTransferableSkusRequest(proto.Message):
             Customer's Cloud Identity ID
         customer_name (str):
             A reseller is required to create a customer and use the
-            resource name of the created customer here. The
-            customer_name takes the format:
+            resource name of the created customer here. Customer_name
+            uses the format:
             accounts/{account_id}/customers/{customer_id}
         parent (str):
-            Required. The resource name of the reseller's account. The
-            parent takes the format: accounts/{account_id}
+            Required. The reseller account's resource name. Parent uses
+            the format: accounts/{account_id}
         page_size (int):
-            Requested page size. Server might return
-            fewer results than requested. If unspecified, at
-            most 100 SKUs will be returned. The maximum
-            value is 1000; values above 1000 will be coerced
-            to 1000. Optional.
+            The requested page size. Server might return
+            fewer results than requested. If unspecified,
+            returns at most 100 SKUs. The maximum value is
+            1000; the server will coerce values above 1000.
+            Optional.
         page_token (str):
-            A token identifying a page of results, if other than the
-            first one. Typically obtained via
+            A token for a page of results other than the first page.
+            Obtained using
             [ListTransferableSkusResponse.next_page_token][google.cloud.channel.v1.ListTransferableSkusResponse.next_page_token]
             of the previous
             [CloudChannelService.ListTransferableSkus][google.cloud.channel.v1.CloudChannelService.ListTransferableSkus]
             call. Optional.
         auth_token (str):
-            This token is generated by the Super Admin of
-            the resold customer to authorize a reseller to
+            The super admin of the resold customer
+            generates this token to authorize a reseller to
             access their Cloud Identity and purchase
-            entitlements on their behalf. This token can be
-            omitted once the authorization is generated. See
+            entitlements on their behalf. You can omit this
+            token after authorization. See
             https://support.google.com/a/answer/7643790 for
             more details.
         language_code (str):
-            The BCP-47 language code, such as "en-US".
-            If specified, the response will be localized to
-            the corresponding language code. Default is "en-
-            US".
+            The BCP-47 language code. For example, "en-
+            S". The response will localize in the
+            corresponding language code, if specified. The
+            default value is "en-US".
             Optional.
     """
 
@@ -424,7 +421,7 @@ class ListTransferableSkusResponse(proto.Message):
     Attributes:
         transferable_skus (Sequence[google.cloud.channel_v1.types.TransferableSku]):
             Information about existing SKUs for a
-            customer that would need to be transferred.
+            customer that needs a transfer.
         next_page_token (str):
             A token to retrieve the next page of results. Pass to
             [ListTransferableSkusRequest.page_token][google.cloud.channel.v1.ListTransferableSkusRequest.page_token]
@@ -451,31 +448,29 @@ class ListTransferableOffersRequest(proto.Message):
             Customer's Cloud Identity ID
         customer_name (str):
             A reseller should create a customer and use
-            the resource name of the created customer here.
+            the resource name of that customer here.
         parent (str):
             Required. The resource name of the reseller's
             account.
         page_size (int):
             Requested page size. Server might return
-            fewer results than requested. If unspecified, at
-            most 100 Offers will be returned. The maximum
-            value is 1000; values above 1000 will be coerced
-            to 1000.
+            fewer results than requested. If unspecified,
+            returns at most 100 offers. The maximum value is
+            1000; the server will coerce values above 1000.
         page_token (str):
-            A token identifying a page of results, if other than the
-            first one. Typically obtained via
+            A token for a page of results other than the first page.
+            Obtained using
             [ListTransferableOffersResponse.next_page_token][google.cloud.channel.v1.ListTransferableOffersResponse.next_page_token]
             of the previous
             [CloudChannelService.ListTransferableOffers][google.cloud.channel.v1.CloudChannelService.ListTransferableOffers]
             call.
         sku (str):
-            Required. SKU for which the Offers are being
-            looked up.
+            Required. The SKU to look up Offers for.
         language_code (str):
-            The BCP-47 language code, such as "en-US".
-            If specified, the response will be localized to
-            the corresponding language code. Default is "en-
-            US".
+            The BCP-47 language code. For example, "en-
+            S". The response will localize in the
+            corresponding language code, if specified. The
+            default value is "en-US".
     """
 
     cloud_identity_id = proto.Field(
@@ -542,8 +537,8 @@ class GetEntitlementRequest(proto.Message):
     Attributes:
         name (str):
             Required. The resource name of the entitlement to retrieve.
-            The name takes the format:
-            accounts/{account_id}/customers/{customer_id}/entitlements/{id}
+            Name uses the format:
+            accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
     """
 
     name = proto.Field(proto.STRING, number=1)
@@ -556,17 +551,17 @@ class ListChannelPartnerLinksRequest(proto.Message):
     Attributes:
         parent (str):
             Required. The resource name of the reseller account for
-            listing channel partner links. The parent takes the format:
+            listing channel partner links. Parent uses the format:
             accounts/{account_id}
         page_size (int):
             Optional. Requested page size. Server might
             return fewer results than requested. If
             unspecified, server will pick a default size
-            (25). The maximum value is 200, values above 200
-            will be coerced to 200.
+            (25). The maximum value is 200; the server will
+            coerce values above 200.
         page_token (str):
-            Optional. A token identifying a page of results, if other
-            than the first one. Typically obtained via
+            Optional. A token for a page of results other than the first
+            page. Obtained using
             [ListChannelPartnerLinksResponse.next_page_token][google.cloud.channel.v1.ListChannelPartnerLinksResponse.next_page_token]
             of the previous
             [CloudChannelService.ListChannelPartnerLinks][google.cloud.channel.v1.CloudChannelService.ListChannelPartnerLinks]
@@ -618,7 +613,7 @@ class GetChannelPartnerLinkRequest(proto.Message):
     Attributes:
         name (str):
             Required. The resource name of the channel partner link to
-            retrieve. The name takes the format:
+            retrieve. Name uses the format:
             accounts/{account_id}/channelPartnerLinks/{id} where {id} is
             the Cloud Identity ID of the partner.
         view (google.cloud.channel_v1.types.ChannelPartnerLinkView):
@@ -639,9 +634,9 @@ class CreateChannelPartnerLinkRequest(proto.Message):
 
     Attributes:
         parent (str):
-            Required. The resource name of reseller's account for which
-            to create a channel partner link. The parent takes the
-            format: accounts/{account_id}
+            Required. Create a channel partner link for the provided
+            reseller account's resource name. Parent uses the format:
+            accounts/{account_id}
         channel_partner_link (google.cloud.channel_v1.types.ChannelPartnerLink):
             Required. The channel partner link to create. Either
             channel_partner_link.reseller_cloud_identity_id or domain
@@ -662,15 +657,15 @@ class UpdateChannelPartnerLinkRequest(proto.Message):
     Attributes:
         name (str):
             Required. The resource name of the channel partner link to
-            cancel. The name takes the format:
+            cancel. Name uses the format:
             accounts/{account_id}/channelPartnerLinks/{id} where {id} is
             the Cloud Identity ID of the partner.
         channel_partner_link (google.cloud.channel_v1.types.ChannelPartnerLink):
-            Required. The channel partner link to update. Only field
-            channel_partner_link.link_state is allowed to be updated.
+            Required. The channel partner link to update. Only
+            channel_partner_link.link_state is allowed for updates.
         update_mask (google.protobuf.field_mask_pb2.FieldMask):
             Required. The update mask that applies to the resource. The
-            only allowable value for update mask is
+            only allowable value for an update mask is
             channel_partner_link.link_state.
     """
 
@@ -689,22 +684,21 @@ class CreateEntitlementRequest(proto.Message):
 
     Attributes:
         parent (str):
-            Required. The resource name of reseller's customer account
-            in which to create the entitlement. The parent takes the
+            Required. The resource name of the reseller's customer
+            account in which to create the entitlement. Parent uses the
             format: accounts/{account_id}/customers/{customer_id}
         entitlement (google.cloud.channel_v1.types.Entitlement):
             Required. The entitlement to create.
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -727,31 +721,31 @@ class TransferEntitlementsRequest(proto.Message):
 
     Attributes:
         parent (str):
-            Required. The resource name of reseller's customer account
-            where the entitlements transfer to. The parent takes the
-            format: accounts/{account_id}/customers/{customer_id}
+            Required. The resource name of the reseller's customer
+            account that will receive transferred entitlements. Parent
+            uses the format:
+            accounts/{account_id}/customers/{customer_id}
         entitlements (Sequence[google.cloud.channel_v1.types.Entitlement]):
-            Required. The new entitlements to be created
-            or transferred.
+            Required. The new entitlements to create or
+            transfer.
         auth_token (str):
-            This token is generated by the Super Admin of
-            the resold customer to authorize a reseller to
+            The super admin of the resold customer
+            generates this token to authorize a reseller to
             access their Cloud Identity and purchase
-            entitlements on their behalf. This token can be
-            omitted once the authorization is generated. See
+            entitlements on their behalf. You can omit this
+            token after authorization. See
             https://support.google.com/a/answer/7643790 for
             more details.
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -773,12 +767,11 @@ class TransferEntitlementsRequest(proto.Message):
 class TransferEntitlementsResponse(proto.Message):
     r"""Response message for
     [CloudChannelService.TransferEntitlements][google.cloud.channel.v1.CloudChannelService.TransferEntitlements].
-    This will be put into the response field of
-    google.longrunning.Operation.
+    This is put in the response field of google.longrunning.Operation.
 
     Attributes:
         entitlements (Sequence[google.cloud.channel_v1.types.Entitlement]):
-            The entitlements that have been transferred.
+            The transferred entitlements.
     """
 
     entitlements = proto.RepeatedField(
@@ -792,23 +785,22 @@ class TransferEntitlementsToGoogleRequest(proto.Message):
 
     Attributes:
         parent (str):
-            Required. The resource name of reseller's customer account
-            where the entitlements transfer from. The parent takes the
-            format: accounts/{account_id}/customers/{customer_id}
+            Required. The resource name of the reseller's customer
+            account where the entitlements transfer from. Parent uses
+            the format: accounts/{account_id}/customers/{customer_id}
         entitlements (Sequence[google.cloud.channel_v1.types.Entitlement]):
-            Required. The entitlements to be transferred
-            to Google.
+            Required. The entitlements to transfer to
+            Google.
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -830,24 +822,22 @@ class ChangeParametersRequest(proto.Message):
 
     Attributes:
         name (str):
-            Required. The name of the entitlement to update. The name
-            takes the format:
+            Required. The name of the entitlement to update. Name uses
+            the format:
             accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
         parameters (Sequence[google.cloud.channel_v1.types.Parameter]):
             Required. Entitlement parameters to update.
-            Only editable parameters are allowed to be
-            changed.
+            You can only change editable parameters.
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -875,22 +865,21 @@ class ChangeRenewalSettingsRequest(proto.Message):
 
     Attributes:
         name (str):
-            Required. The name of the entitlement to update. The name
-            takes the format:
+            Required. The name of the entitlement to update. Name uses
+            the format:
             accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
         renewal_settings (google.cloud.channel_v1.types.RenewalSettings):
             Required. New renewal settings.
         request_id (str):
-            Optional. A request ID to identify requests. Specify a
-            unique request ID so that if you must retry your request,
-            the server will know to ignore the request if it has already
-            been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -913,7 +902,8 @@ class ChangeOfferRequest(proto.Message):
 
     Attributes:
         name (str):
-            Required. The name of the entitlement to update. Format:
+            Required. The resource name of the entitlement to update.
+            Name uses the format:
             accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
         offer (str):
             Required. New Offer. Format:
@@ -925,16 +915,15 @@ class ChangeOfferRequest(proto.Message):
             Optional. Purchase order id provided by the
             reseller.
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -961,20 +950,19 @@ class StartPaidServiceRequest(proto.Message):
 
     Attributes:
         name (str):
-            Required. The name of the entitlement for which paid service
-            is being started. The name takes the format:
+            Required. The name of the entitlement to start a paid
+            service for. Name uses the format:
             accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -994,19 +982,18 @@ class CancelEntitlementRequest(proto.Message):
     Attributes:
         name (str):
             Required. The resource name of the entitlement to cancel.
-            The name takes the format:
+            Name uses the format:
             accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -1026,19 +1013,18 @@ class SuspendEntitlementRequest(proto.Message):
     Attributes:
         name (str):
             Required. The resource name of the entitlement to suspend.
-            The name takes the format:
+            Name uses the format:
             accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -1058,19 +1044,18 @@ class ActivateEntitlementRequest(proto.Message):
     Attributes:
         name (str):
             Required. The resource name of the entitlement to activate.
-            The name takes the format:
+            Name uses the format:
             accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
         request_id (str):
-            Optional. An optional request ID to identify requests.
-            Specify a unique request ID so that if you must retry your
-            request, the server will know to ignore the request if it
-            has already been completed.
+            Optional. You can specify an optional unique request ID, and
+            if you need to retry your request, the server will know to
+            ignore the request if it's complete.
 
-            For example, consider a situation where you make an initial
-            request and the request times out. If you make the request
-            again with the same request ID, the server can check if the
-            original operation with the same request ID was received,
-            and if so, will ignore the second request.
+            For example, you make an initial request and the request
+            times out. If you make the request again with the same
+            request ID, the server can check if it received the original
+            operation with the same request ID. If it did, it will
+            ignore the second request.
 
             The request ID must be a valid
             `UUID <https://tools.ietf.org/html/rfc4122>`__ with the
@@ -1093,17 +1078,17 @@ class ListProductsRequest(proto.Message):
         page_size (int):
             Optional. Requested page size. Server might
             return fewer results than requested. If
-            unspecified, at most 100 Products will be
-            returned. The maximum value is 1000; values
-            above 1000 will be coerced to 1000.
+            unspecified, returns at most 100 Products. The
+            maximum value is 1000; the server will coerce
+            values above 1000.
         page_token (str):
-            Optional. A token identifying a page of
-            results, if other than the first one.
+            Optional. A token for a page of results other
+            than the first page.
         language_code (str):
-            Optional. The BCP-47 language code, such as
-            "en-US".  If specified, the response will be
-            localized to the corresponding language code.
-            Default is "en-US".
+            Optional. The BCP-47 language code. For
+            example, "en-US". The response will localize in
+            the corresponding language code, if specified.
+            The default value is "en-US".
     """
 
     account = proto.Field(proto.STRING, number=1)
@@ -1141,26 +1126,26 @@ class ListSkusRequest(proto.Message):
 
     Attributes:
         parent (str):
-            Required. The resource name of the Product for which to list
-            SKUs. The parent takes the format: products/{product_id}.
-            Supports products/- to retrieve SKUs for all products.
+            Required. The resource name of the Product to list SKUs for.
+            Parent uses the format: products/{product_id}. Supports
+            products/- to retrieve SKUs for all products.
         account (str):
             Required. Resource name of the reseller. Format:
             accounts/{account_id}.
         page_size (int):
             Optional. Requested page size. Server might
             return fewer results than requested. If
-            unspecified, at most 100 SKUs will be returned.
-            The maximum value is 1000; values above 1000
-            will be coerced to 1000.
+            unspecified, returns at most 100 SKUs. The
+            maximum value is 1000; the server will coerce
+            values above 1000.
         page_token (str):
-            Optional. A token identifying a page of
-            results, if other than the first one. Optional.
+            Optional. A token for a page of results other
+            than the first page. Optional.
         language_code (str):
-            Optional. The BCP-47 language code, such as
-            "en-US".  If specified, the response will be
-            localized to the corresponding language code.
-            Default is "en-US".
+            Optional. The BCP-47 language code. For
+            example, "en-US". The response will localize in
+            the corresponding language code, if specified.
+            The default value is "en-US".
     """
 
     parent = proto.Field(proto.STRING, number=1)
@@ -1199,29 +1184,29 @@ class ListOffersRequest(proto.Message):
     Attributes:
         parent (str):
             Required. The resource name of the reseller account from
-            which to list Offers. The parent takes the format:
+            which to list Offers. Parent uses the format:
             accounts/{account_id}.
         page_size (int):
             Optional. Requested page size. Server might
             return fewer results than requested. If
-            unspecified, at most 500 Offers will be
-            returned. The maximum value is 1000; values
-            above 1000 will be coerced to 1000.
+            unspecified, returns at most 500 Offers. The
+            maximum value is 1000; the server will coerce
+            values above 1000.
         page_token (str):
-            Optional. A token identifying a page of
-            results, if other than the first one.
+            Optional. A token for a page of results other
+            than the first page.
         filter (str):
             Optional. The expression to filter results by
             name (name of the Offer), sku.name (name of the
-            SKU) or sku.product.name (name of the Product).
+            SKU), or sku.product.name (name of the Product).
             Example 1: sku.product.name=products/p1 AND
             sku.name!=products/p1/skus/s1 Example 2:
             name=accounts/a1/offers/o1
         language_code (str):
-            Optional. The BCP-47 language code, such as
-            "en-US".  If specified, the response will be
-            localized to the corresponding language code.
-            Default is "en-US".
+            Optional. The BCP-47 language code. For
+            example, "en-US". The response will localize in
+            the corresponding language code, if specified.
+            The default value is "en-US".
     """
 
     parent = proto.Field(proto.STRING, number=1)
@@ -1264,23 +1249,22 @@ class ListPurchasableSkusRequest(proto.Message):
             List SKUs for ChangeOffer purchase with a new
             SKU.
         customer (str):
-            Required. The resource name of the customer for which to
-            list SKUs. Format:
-            accounts/{account_id}/customers/{customer_id}.
+            Required. The resource name of the customer to list SKUs
+            for. Format: accounts/{account_id}/customers/{customer_id}.
         page_size (int):
             Optional. Requested page size. Server might
             return fewer results than requested. If
-            unspecified, at most 100 SKUs will be returned.
-            The maximum value is 1000; values above 1000
-            will be coerced to 1000.
+            unspecified, returns at most 100 SKUs. The
+            maximum value is 1000; the server will coerce
+            values above 1000.
         page_token (str):
-            Optional. A token identifying a page of
-            results, if other than the first one.
+            Optional. A token for a page of results other
+            than the first page.
         language_code (str):
-            Optional. The BCP-47 language code, such as
-            "en-US".  If specified, the response will be
-            localized to the corresponding language code.
-            Default is "en-US".
+            Optional. The BCP-47 language code. For
+            example, "en-US". The response will localize in
+            the corresponding language code, if specified.
+            The default value is "en-US".
     """
 
     class CreateEntitlementPurchase(proto.Message):
@@ -1365,8 +1349,8 @@ class ListPurchasableSkusResponse(proto.Message):
 
 
 class PurchasableSku(proto.Message):
-    r"""SKU that can be used for a puchase. This is used in
-    ListPurchasableSku API response.
+    r"""SKU that you can purchase. This is used in ListPurchasableSku
+    API response.
 
     Attributes:
         sku (google.cloud.channel_v1.types.Sku):
@@ -1385,23 +1369,22 @@ class ListPurchasableOffersRequest(proto.Message):
         change_offer_purchase (google.cloud.channel_v1.types.ListPurchasableOffersRequest.ChangeOfferPurchase):
             List Offers for ChangeOffer purchase.
         customer (str):
-            Required. The resource name of the customer for which to
-            list Offers. Format:
-            accounts/{account_id}/customers/{customer_id}.
+            Required. The resource name of the customer to list Offers
+            for. Format: accounts/{account_id}/customers/{customer_id}.
         page_size (int):
             Optional. Requested page size. Server might
             return fewer results than requested. If
-            unspecified, at most 100 Offers will be
-            returned. The maximum value is 1000; values
-            above 1000 will be coerced to 1000.
+            unspecified, returns at most 100 Offers. The
+            maximum value is 1000; the server will coerce
+            values above 1000.
         page_token (str):
-            Optional. A token identifying a page of
-            results, if other than the first one.
+            Optional. A token for a page of results other
+            than the first page.
         language_code (str):
-            Optional. The BCP-47 language code, such as
-            "en-US".  If specified, the response will be
-            localized to the corresponding language code.
-            Default is "en-US".
+            Optional. The BCP-47 language code. For
+            example, "en-US". The response will localize in
+            the corresponding language code, if specified.
+            The default value is "en-US".
     """
 
     class CreateEntitlementPurchase(proto.Message):
@@ -1423,9 +1406,9 @@ class ListPurchasableOffersRequest(proto.Message):
                 Required. Resource name of the entitlement. Format:
                 accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
             new_sku (str):
-                Optional. Resource name of the SKU that is being changed to.
-                Should be provided if upgrading or downgrading an
-                entitlement. Format: products/{product_id}/skus/{sku_id}
+                Optional. Resource name of the new target SKU. Provide this
+                SKU when upgrading or downgrading an entitlement. Format:
+                products/{product_id}/skus/{sku_id}
         """
 
         entitlement = proto.Field(proto.STRING, number=1)
@@ -1474,8 +1457,8 @@ class ListPurchasableOffersResponse(proto.Message):
 
 
 class PurchasableOffer(proto.Message):
-    r"""Offer that can be puchased for a customer. This is used in
-    ListPurchasableOffer API response.
+    r"""Offer that you can purchase for a customer. This is used in
+    the ListPurchasableOffer API response.
 
     Attributes:
         offer (google.cloud.channel_v1.types.Offer):
@@ -1492,7 +1475,7 @@ class RegisterSubscriberRequest(proto.Message):
         account (str):
             Required. Resource name of the account.
         service_account (str):
-            Required. Service account which will provide
+            Required. Service account that provides
             subscriber access to the registered topic.
     """
 
@@ -1506,8 +1489,8 @@ class RegisterSubscriberResponse(proto.Message):
 
     Attributes:
         topic (str):
-            Name of the topic to which the subscriber
-            will listen to.
+            Name of the topic the subscriber will listen
+            to.
     """
 
     topic = proto.Field(proto.STRING, number=1)
@@ -1520,9 +1503,8 @@ class UnregisterSubscriberRequest(proto.Message):
         account (str):
             Required. Resource name of the account.
         service_account (str):
-            Required. Service account which will be
-            unregistered from getting subscriber access to
-            the topic.
+            Required. Service account to unregister from
+            subscriber access to the topic.
     """
 
     account = proto.Field(proto.STRING, number=1)
@@ -1535,8 +1517,8 @@ class UnregisterSubscriberResponse(proto.Message):
 
     Attributes:
         topic (str):
-            Name of the topic from which the service
-            account subscriber access has been removed.
+            Name of the topic the service account
+            subscriber access was removed from.
     """
 
     topic = proto.Field(proto.STRING, number=1)
@@ -1551,10 +1533,9 @@ class ListSubscribersRequest(proto.Message):
         page_size (int):
             Optional. The maximum number of service
             accounts to return. The service may return fewer
-            than this value. If unspecified, at most 100
-            service accounts will be returned. The maximum
-            value is 1000; values above 1000 will be coerced
-            to 1000.
+            than this value. If unspecified, returns at most
+            100 service accounts. The maximum value is 1000;
+            the server will coerce values above 1000.
         page_token (str):
             Optional. A page token, received from a previous
             ``ListSubscribers`` call. Provide this to retrieve the

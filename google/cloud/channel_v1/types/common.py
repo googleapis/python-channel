@@ -74,7 +74,12 @@ class CloudIdentityInfo(proto.Message):
         primary_domain (str):
             Output only. The primary domain name.
         is_domain_verified (bool):
-            Whether the domain is verified.
+            Output only. Whether the domain is verified. This field is
+            not returned for a Customer's cloud_identity_info resource.
+            Partners can use the domains.get() method of the Workspace
+            SDK's Directory API, or listen to the
+            PRIMARY_DOMAIN_VERIFIED Pub/Sub event in to track domain
+            verification of their resolve Workspace customers.
         alternate_email (str):
             The alternate email.
         phone_number (str):
@@ -124,6 +129,8 @@ class Value(proto.Message):
             Represents a double value.
         proto_value (google.protobuf.any_pb2.Any):
             Represents an 'Any' proto value.
+        bool_value (bool):
+            Represents a boolean value.
     """
 
     int64_value = proto.Field(proto.INT64, number=1, oneof="kind")
@@ -135,6 +142,8 @@ class Value(proto.Message):
     proto_value = proto.Field(
         proto.MESSAGE, number=4, oneof="kind", message=gp_any.Any,
     )
+
+    bool_value = proto.Field(proto.BOOL, number=5, oneof="kind")
 
 
 class AdminUser(proto.Message):
