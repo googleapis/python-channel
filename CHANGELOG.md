@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.2](https://www.github.com/googleapis/python-channel/compare/v1.1.1...v1.1.2) (2021-06-19)
+
+
+### Documentation
+
+* omit mention of Python 2.7 in 'CONTRIBUTING.rst' ([#1127](https://www.github.com/googleapis/python-channel/issues/1127)) ([#59](https://www.github.com/googleapis/python-channel/issues/59)) ([f358de3](https://www.github.com/googleapis/python-channel/commit/f358de3eb94fc9c870a899e3d94d93c5f14b5b0d)), closes [#1126](https://www.github.com/googleapis/python-channel/issues/1126)
+
 ### [1.1.1](https://www.github.com/googleapis/python-channel/compare/v1.1.0...v1.1.1) (2021-06-16)
 
 
