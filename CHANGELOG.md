@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/googleapis/python-channel/compare/v1.2.1...v1.3.0) (2021-07-24)
+
+
+### Features
+
+* add Samples section to CONTRIBUTING.rst ([#72](https://www.github.com/googleapis/python-channel/issues/72)) ([b70a090](https://www.github.com/googleapis/python-channel/commit/b70a0900ab7b820e623a286cbd6f0e5c29ad9256))
+
+
+### Bug Fixes
+
+* enable self signed jwt for grpc ([#76](https://www.github.com/googleapis/python-channel/issues/76)) ([016111e](https://www.github.com/googleapis/python-channel/commit/016111ee4750d047c44324bf3dca752560840376))
+
 ### [1.2.1](https://www.github.com/googleapis/python-channel/compare/v1.2.0...v1.2.1) (2021-07-20)
 
 
