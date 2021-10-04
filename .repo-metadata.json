@@ -10,6 +10,6 @@
     "repo": "googleapis/python-channel",
     "distribution_name": "google-cloud-channel",
     "api_id": "cloudchannel.googleapis.com",
-    "default_version": "",
+    "default_version": "v1",
     "codeowner_team": ""
 }
