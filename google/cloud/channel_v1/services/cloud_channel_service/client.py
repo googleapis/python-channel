@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core import client_options as client_options_lib
@@ -573,7 +573,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_customers():
                 # Create a client
@@ -675,7 +675,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_get_customer():
                 # Create a client
@@ -790,7 +790,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_check_cloud_identity_accounts_exist():
                 # Create a client
@@ -881,7 +881,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_create_customer():
                 # Create a client
@@ -974,7 +974,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_update_customer():
                 # Create a client
@@ -1067,7 +1067,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_delete_customer():
                 # Create a client
@@ -1166,7 +1166,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_import_customer():
                 # Create a client
@@ -1265,7 +1265,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_provision_cloud_identity():
                 # Create a client
@@ -1366,7 +1366,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_entitlements():
                 # Create a client
@@ -1476,7 +1476,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_transferable_skus():
                 # Create a client
@@ -1589,7 +1589,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_transferable_offers():
                 # Create a client
@@ -1691,7 +1691,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_get_entitlement():
                 # Create a client
@@ -1810,7 +1810,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_create_entitlement():
                 # Create a client
@@ -1929,7 +1929,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_change_parameters():
                 # Create a client
@@ -2046,7 +2046,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_change_renewal_settings():
                 # Create a client
@@ -2159,7 +2159,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_change_offer():
                 # Create a client
@@ -2276,7 +2276,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_start_paid_service():
                 # Create a client
@@ -2389,7 +2389,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_suspend_entitlement():
                 # Create a client
@@ -2507,7 +2507,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_cancel_entitlement():
                 # Create a client
@@ -2636,7 +2636,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_activate_entitlement():
                 # Create a client
@@ -2762,7 +2762,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_transfer_entitlements():
                 # Create a client
@@ -2891,7 +2891,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_transfer_entitlements_to_google():
                 # Create a client
@@ -3011,7 +3011,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_channel_partner_links():
                 # Create a client
@@ -3116,7 +3116,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_get_channel_partner_link():
                 # Create a client
@@ -3216,7 +3216,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_create_channel_partner_link():
                 # Create a client
@@ -3323,7 +3323,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_update_channel_partner_link():
                 # Create a client
@@ -3418,7 +3418,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_lookup_offer():
                 # Create a client
@@ -3502,7 +3502,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_products():
                 # Create a client
@@ -3587,7 +3587,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_skus():
                 # Create a client
@@ -3679,7 +3679,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_offers():
                 # Create a client
@@ -3775,7 +3775,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_purchasable_skus():
                 # Create a client
@@ -3877,7 +3877,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_purchasable_offers():
                 # Create a client
@@ -3987,7 +3987,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_register_subscriber():
                 # Create a client
@@ -4084,7 +4084,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_unregister_subscriber():
                 # Create a client
@@ -4176,7 +4176,7 @@ class CloudChannelServiceClient(metaclass=CloudChannelServiceClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import channel_v1
+                    from google.cloud import channel_v1
 
             def sample_list_subscribers():
                 # Create a client
