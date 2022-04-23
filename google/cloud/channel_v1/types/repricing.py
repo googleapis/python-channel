@@ -13,22 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import proto  # type: ignore
-
 from google.protobuf import timestamp_pb2  # type: ignore
 from google.type import date_pb2  # type: ignore
 from google.type import decimal_pb2  # type: ignore
-
+import proto  # type: ignore
 
 __protobuf__ = proto.module(
-    package='google.cloud.channel.v1',
+    package="google.cloud.channel.v1",
     manifest={
-        'RebillingBasis',
-        'CustomerRepricingConfig',
-        'ChannelPartnerRepricingConfig',
-        'RepricingConfig',
-        'RepricingAdjustment',
-        'PercentageAdjustment',
+        "RebillingBasis",
+        "CustomerRepricingConfig",
+        "ChannelPartnerRepricingConfig",
+        "RepricingConfig",
+        "RepricingAdjustment",
+        "PercentageAdjustment",
     },
 )
 
@@ -68,7 +66,7 @@ class CustomerRepricingConfig(proto.Message):
     repricing_config = proto.Field(
         proto.MESSAGE,
         number=2,
-        message='RepricingConfig',
+        message="RepricingConfig",
     )
     update_time = proto.Field(
         proto.MESSAGE,
@@ -104,7 +102,7 @@ class ChannelPartnerRepricingConfig(proto.Message):
     repricing_config = proto.Field(
         proto.MESSAGE,
         number=2,
-        message='RepricingConfig',
+        message="RepricingConfig",
     )
     update_time = proto.Field(
         proto.MESSAGE,
@@ -176,13 +174,13 @@ class RepricingConfig(proto.Message):
     entitlement_granularity = proto.Field(
         proto.MESSAGE,
         number=4,
-        oneof='granularity',
+        oneof="granularity",
         message=EntitlementGranularity,
     )
     channel_partner_granularity = proto.Field(
         proto.MESSAGE,
         number=5,
-        oneof='granularity',
+        oneof="granularity",
         message=ChannelPartnerGranularity,
     )
     effective_invoice_month = proto.Field(
@@ -193,12 +191,12 @@ class RepricingConfig(proto.Message):
     adjustment = proto.Field(
         proto.MESSAGE,
         number=2,
-        message='RepricingAdjustment',
+        message="RepricingAdjustment",
     )
     rebilling_basis = proto.Field(
         proto.ENUM,
         number=3,
-        enum='RebillingBasis',
+        enum="RebillingBasis",
     )
 
 
@@ -219,8 +217,8 @@ class RepricingAdjustment(proto.Message):
     percentage_adjustment = proto.Field(
         proto.MESSAGE,
         number=2,
-        oneof='adjustment',
-        message='PercentageAdjustment',
+        oneof="adjustment",
+        message="PercentageAdjustment",
     )
 
 
