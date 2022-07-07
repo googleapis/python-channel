@@ -3,7 +3,7 @@ Python Client for Channel Services API
 
 |stable| |pypi| |versions|
 
-`Channel Services API`_: 
+`Channel Services API`_: With Channel Services, Google Cloud partners and resellers have a single unified resale platform, with a unified resale catalog, customer management, order management, billing management, policy and authorization management, and cost management.
 
 - `Client Library Documentation`_
 - `Product Documentation`_
