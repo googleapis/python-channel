@@ -116,6 +116,9 @@ class Offer(proto.Message):
         parameter_definitions (Sequence[google.cloud.channel_v1.types.ParameterDefinition]):
             Parameters required to use current Offer to
             purchase.
+        deal_code (str):
+            The deal code of the offer to get a special
+            promotion or discount.
     """
 
     name = proto.Field(
@@ -161,6 +164,10 @@ class Offer(proto.Message):
         proto.MESSAGE,
         number=9,
         message="ParameterDefinition",
+    )
+    deal_code = proto.Field(
+        proto.STRING,
+        number=12,
     )
 
 
