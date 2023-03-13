@@ -17,16 +17,15 @@ from __future__ import annotations
 
 from typing import MutableMapping, MutableSequence
 
+from google.protobuf import timestamp_pb2  # type: ignore
 import proto  # type: ignore
 
 from google.cloud.channel_v1.types import entitlements
-from google.protobuf import timestamp_pb2  # type: ignore
-
 
 __protobuf__ = proto.module(
-    package='google.cloud.channel.v1',
+    package="google.cloud.channel.v1",
     manifest={
-        'EntitlementChange',
+        "EntitlementChange",
     },
 )
 
@@ -82,6 +81,7 @@ class EntitlementChange(proto.Message):
             user's email address. For all other operator types, this is
             empty.
     """
+
     class ChangeType(proto.Enum):
         r"""Specifies the type of change action
 
@@ -214,25 +214,25 @@ class EntitlementChange(proto.Message):
     suspension_reason: entitlements.Entitlement.SuspensionReason = proto.Field(
         proto.ENUM,
         number=9,
-        oneof='change_reason',
+        oneof="change_reason",
         enum=entitlements.Entitlement.SuspensionReason,
     )
     cancellation_reason: CancellationReason = proto.Field(
         proto.ENUM,
         number=10,
-        oneof='change_reason',
+        oneof="change_reason",
         enum=CancellationReason,
     )
     activation_reason: ActivationReason = proto.Field(
         proto.ENUM,
         number=11,
-        oneof='change_reason',
+        oneof="change_reason",
         enum=ActivationReason,
     )
     other_change_reason: str = proto.Field(
         proto.STRING,
         number=100,
-        oneof='change_reason',
+        oneof="change_reason",
     )
     entitlement: str = proto.Field(
         proto.STRING,
